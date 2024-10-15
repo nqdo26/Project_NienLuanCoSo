@@ -1,0 +1,90 @@
+.wrapper {
+    height: 100vh;
+    width: 100vw;
+    background: url('../../../src/assets/images/LoginBackground.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.inner {
+    display: flex;
+    flex-direction: column;
+    padding: 70px;
+    padding-bottom: 5px;
+    width: 421px;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    gap: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+.img {
+    width: 150px;
+    height: auto;
+}
+
+.email {
+    padding-right: 35px;
+}
+
+.password {
+    padding-right: 10px;
+}
+
+.action {
+    width: 100%;
+    margin-left: -50px;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.login-button {
+    background-color: var(--white);
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: 1px solid var(--black);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: black;
+    }
+}
+
+.register {
+    color: rgb(0, 0, 168);
+
+    &:hover {
+        color: rgb(0, 0, 255);
+    }
+}
+
+.back {
+    font-size: 1.2rem;
+    color: rgb(0, 0, 0);
+
+    &:hover {
+        color: red;
+    }
+}

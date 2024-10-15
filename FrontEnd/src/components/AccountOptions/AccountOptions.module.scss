@@ -1,0 +1,36 @@
+.title {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.content {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--silver);
+    padding-right: 50px;
+
+    &:hover {
+        color: var(--text-color);
+    }
+}
+
+.link {
+    &:hover {
+        .content {
+            color: black;
+        }
+    }
+}
+
+.hi-account {
+    color: var(--text-color);
+
+    &:hover {
+        color: var(--silver);
+    }
+}
+
+.icon {
+    font-size: 1.6rem;
+    margin-right: 10px;
+}
