@@ -36,7 +36,7 @@ function User() {
         },
         {
             title: 'Name',
-            dataIndex: 'nam',
+            dataIndex: 'name',
         },
         {
             title: 'ROLE',

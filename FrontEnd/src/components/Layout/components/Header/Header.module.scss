@@ -101,7 +101,7 @@
     flex-direction: column;
     margin: 13px 485px;
     text-align: center;
-    animation: comeFromLeft 1s ease-out; 
+    animation: comeFromLeft 1s ease-out;
 
     .header-3-content {
         font-size: 1.7rem;
@@ -113,7 +113,6 @@
         font-size: 1.2rem;
         font-weight: 700;
         text-decoration: underline;
-        
     }
 }
 
@@ -168,6 +167,14 @@
     &:hover {
         color: var(--text-color);
     }
+}
+
+.admin-content .content {
+    color: red;
+}
+
+.admin-content:hover .content {
+    color: black;
 }
 
 .link {

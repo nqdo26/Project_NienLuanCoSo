@@ -43,13 +43,35 @@ function Header() {
             key: '6',
             label: <span className={cx('content')}>Account Settings</span>,
         },
-        {
-            key: '7',
-            label: <span className={cx('content')}><Link to="/user">Account Management</Link></span>,
-        },
+        ...(auth.user.role === 'ADMIN' ? [
+            {
+                key: '7',
+                label: (
+                    <Link className={cx('admin-content')} to="/user">
+                        <span className={cx('content')}>Account Management</span>
+                    </Link>
+                ),
+            },
+            {
+                key: '8',
+                label: (
+                    <Link className={cx('admin-content')} to="/product">
+                        <span className={cx('content')}>Product Management</span>
+                    </Link>
+                ),
+            },
+            {
+                key: '9',
+                label: (
+                    <Link className={cx('admin-content')} to="/product">
+                        <span className={cx('content')}>Sale Management</span>
+                    </Link>
+                ),
+            }
+        ] : []),
 
         {
-            key: '8',
+            key: '10',
             label: (
                 <span
                     onClick={() => {
