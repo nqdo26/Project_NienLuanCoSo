@@ -3,10 +3,9 @@ const routes = {
     login: '/login',
     register: '/register',
     user: '/user',
-    following: '/following',
-    profile: '/:nickname',
-    upload: '/upload',
-    search: '/search',
+    newfeatured: '/newfeatured',
+    products: '/products',
+    sale: '/sale',
 };
 
 export default routes;

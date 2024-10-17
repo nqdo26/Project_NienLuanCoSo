@@ -7,7 +7,7 @@ const RunningBanner = () => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div style={{ textAlign: 'center', padding: '50px 0' }}>
+        <div style={{ textAlign: 'center', padding: '50px 0'}}>
             <Row justify="center">
                 <Col span={24}>
                     <Text style={{ fontSize: '14px', color: 'gray', marginBottom: '8px' }}>Nike Running</Text>

@@ -80,7 +80,7 @@ function Products({ isVisible, onMouseLeave }) {
                 </div>
             )}
             <div className={cx('nav-items')}>
-                <Link className={cx('nav-content')} onMouseDown={(e) => e.preventDefault()}>
+                <Link to='/products' className={cx('nav-content')} onMouseDown={(e) => e.preventDefault()}>
                     Products
                 </Link>
             </div>

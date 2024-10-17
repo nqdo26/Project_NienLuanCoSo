@@ -8,6 +8,7 @@ import Home from '~/pages/Home';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
 import User from '~/pages/User';
+import Products from '~/pages/Products';
 import { AuthWrapper } from './components/Context/auth.context';
 
 const router = createBrowserRouter([
@@ -19,10 +20,13 @@ const router = createBrowserRouter([
                 index: true,
                 element: <Home />,
             },
-
             {
                 path: 'user',
                 element: <User />,
+            },
+            {
+                path: 'products',
+                element: <Products />,
             },
         ],
     },
