@@ -4,16 +4,18 @@
 }
 
 //Panel color
-.color-grid {
+.color-gird {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Chia lưới thành 4 cột */
+    grid-template-columns: repeat(4, 41px);
+    padding-left: 25px;
     gap: 10px;
+    max-width: 200px;
 }
 
 .color-item {
-    display: flex;
-    flex-direction: column;
     align-items: center;
+    cursor: pointer;
+  
 }
 
 .color-circle {
@@ -21,6 +23,9 @@
     height: 24px;
     border-radius: 25%;
     margin-bottom: 4px;
+    &:hover {
+        border: 1px solid #000;
+    }
 }
 
 .color-name {

@@ -1,14 +1,15 @@
 import React from 'react';
-import { Layout, Menu, Card, Col, Row, Typography, Checkbox, Collapse } from 'antd';
+import { Layout, Menu, Col, Row, Typography, Checkbox, Collapse } from 'antd';
 import Header from '~/components/Layout/components/Header';
 import Footer from '~/components/Layout/components/Footer';
 import classNames from 'classnames/bind';
 import styles from './ProductLayout.module.scss';
+import CardProduct from '../../CardProduct';
 const cx = classNames.bind(styles);
 
 function ProductLayout() {
     const { Sider, Content } = Layout;
-    const { Title, Text } = Typography;
+    const { Title } = Typography;
     const { Panel } = Collapse;
 
     const colors = [
@@ -37,11 +38,11 @@ function ProductLayout() {
                         <Menu mode="inline" defaultSelectedKeys={['1']} style={{ borderLeft: '1px solid #d9d9d9' }}>
                             <Menu.Item key="1">Best Seller</Menu.Item>
                             <Menu.Item key="2">Jordan</Menu.Item>
-                            <Menu.Item key="2">Nike</Menu.Item>
-                            <Menu.Item key="3">Running</Menu.Item>
-                            <Menu.Item key="6">Training & Gym</Menu.Item>
-                            <Menu.Item key="10">Athletics</Menu.Item>
-                            <Menu.Item key="11">Walking</Menu.Item>
+                            <Menu.Item key="3">Nike</Menu.Item>
+                            <Menu.Item key="4">Running</Menu.Item>
+                            <Menu.Item key="5">Training & Gym</Menu.Item>
+                            <Menu.Item key="6">Athletics</Menu.Item>
+                            <Menu.Item key="7">Walking</Menu.Item>
                         </Menu>
 
                         <Collapse bordered={false} defaultActiveKey={['1']} style={{ marginTop: '20px' }}>
@@ -56,7 +57,26 @@ function ProductLayout() {
                                 <Checkbox>Sale</Checkbox>
                             </Panel>
                             <Panel header="Size" key="4">
-                                {['36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46'].map((size) => (
+                                {[
+                                    '36',
+                                    '36.5',
+                                    '37',
+                                    '37.5',
+                                    '38',
+                                    '38.5',
+                                    '39',
+                                    '39.5',
+                                    '40',
+                                    '40.5',
+                                    '41',
+                                    '42',
+                                    '43',
+                                    '43',
+                                    '44',
+                                    '45',
+                                    '46',
+                                    '47',
+                                ].map((size) => (
                                     <Checkbox>{size}</Checkbox>
                                 ))}
                             </Panel>
@@ -68,7 +88,6 @@ function ProductLayout() {
                                                 className={cx('color-circle')}
                                                 style={{ backgroundColor: colorCode, border: border || 'none' }}
                                             ></div>
-                    
                                         </div>
                                     ))}
                                 </div>
@@ -80,68 +99,22 @@ function ProductLayout() {
                         <Content style={{ padding: '20px' }}>
                             <Row gutter={[16, 16]}>
                                 <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Air Jordan 1</Title>
-                                        <Text type="secondary">Shoes</Text>
-                                        <br />
-                                        <Text>4,539,000đ</Text>
-                                        <br />
-                                        <Text type="danger">20% off</Text>
-                                        <br />
-                                        <Text strong>3,631,199đ</Text>
-                                    </Card>
+                                   <CardProduct 
+                                        title="Nike Air Max 270 "
+                                        text="hehe"
+                                        color="5 colors"
+                                        price="2,200,000đ"
+
+                                    />
                                 </Col>
                                 <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Air Jordan 1</Title>
-                                        <Text type="secondary">Shoes</Text>
-                                        <br />
-                                        <Text>4,539,000đ</Text>
-                                        <br />
-                                        <Text type="danger">20% off</Text>
-                                        <br />
-                                        <Text strong>3,631,199đ</Text>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Air Jordan 1</Title>
-                                        <Text type="secondary">Shoes</Text>
-                                        <br />
-                                        <Text>4,539,000đ</Text>
-                                        <br />
-                                        <Text type="danger">20% off</Text>
-                                        <br />
-                                        <Text strong>3,631,199đ</Text>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Air Jordan 1</Title>
-                                        <Text type="secondary">Shoes</Text>
-                                        <br />
-                                        <Text>4,539,000đ</Text>
-                                        <br />
-                                        <Text type="danger">20% off</Text>
-                                        <br />
-                                        <Text strong>3,631,199đ</Text>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Air Jordan 1 Elevate Low</Title>
-                                        <Text type="secondary">Shoes</Text>
-                                        <br />
-                                        <Text>3,829,000đ</Text>
-                                    </Card>
-                                </Col>
-                                <Col span={8}>
-                                    <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
-                                        <Title level={5}>Nike Dunk Low</Title>
-                                        <Text type="secondary">Women's Shoes</Text>
-                                        <br />
-                                        <Text>2,929,000đ</Text>
-                                    </Card>
+                                   <CardProduct 
+                                        title="Nike Air Max 270 "
+                                        text="hehe"
+                                        color="5 colors"
+                                        price="2,200,000đ"
+
+                                    />
                                 </Col>
                             </Row>
                         </Content>

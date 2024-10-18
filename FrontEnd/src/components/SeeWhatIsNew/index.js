@@ -1,50 +1,142 @@
 import React from 'react';
-import { Card, Carousel } from 'antd';
+import { Carousel } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './SeeWhatIsNew.module.scss';
+import CardProduct from '../CardProduct';
 
 const cx = classNames.bind(styles);
-const { Meta } = Card;
 
-const App = () => {
-  const products = [
-    {
-      name: 'Nike Air Force 1 Dance',
-      price: '3,829,000₫',
-      description: "Women's Shoes",
-      img: 'https://link-to-nike-af1.jpg',
-    },
-    {
-      name: 'Nike Air Rift SE',
-      price: '3,519,000₫',
-      description: "Women's Shoes",
-      img: 'https://link-to-nike-air-rift.jpg',
-    },
-    {
-      name: 'Nike Metcon 9 AMP',
-      price: '4,109,000₫',
-      description: "Men's Workout Shoes",
-      img: 'https://link-to-nike-metcon-9.jpg',
-    },
-  ];
-
-  return (
-    <div className={cx('wrapper')} style={{ margin: '0 auto', maxWidth: '100%' }}>
-      <h2 className={cx('title')}>See What's New</h2>
-      <Carousel dots={false} arrows={true} slidesToShow={4}>
-        {products.map((product, index) => (
-          <Card className={cx('card')}
-            key={index}
-            hoverable
-            cover={<img alt={product.name} src={product.img} style={{ height: '200px', objectFit: 'cover' }} />}
-          >
-            <Meta title={product.name} description={product.description} />
-            <p>{product.price}</p>
-          </Card>
-        ))}
-      </Carousel>
+const CustomArrow = ({ className, style, onClick, icon }) => (
+    <div
+        className={className}
+        style={{
+            ...style,
+            fontSize: '60px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+            color: 'black',
+            zIndex: 10,
+        }}
+        onClick={onClick}
+    >
+        {icon}
     </div>
-  );
+);
+
+const SeeWhatIsNew = () => {
+    return (
+        <div className={cx('wrapper')} style={{ margin: '0 auto', maxWidth: '100%' }}>
+            <h2 className={cx('title')}>See What's New</h2>
+            <Carousel
+                slidesToShow={4}
+                slidesToScroll={1}
+                arrows
+                prevArrow={<CustomArrow icon={<LeftOutlined />} />}
+                nextArrow={<CustomArrow icon={<RightOutlined />} />}
+                style={{ paddingBottom: '30px' }}
+            >
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Air Force 1 Dance"
+                                src="https://link-to-nike-af1.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Air Force 1 Dance"
+                        text="Women's Shoes"
+                        price="3,829,000₫"
+                    />
+                </div>
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Metcon 9 AMP"
+                                src="https://link-to-nike-metcon-9.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Metcon 9 AMP"
+                        text="Men's Workout Shoes"
+                        price="4,109,000₫"
+                    />
+                </div>
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Free Metcon 6 Premium"
+                                src="https://link-to-nike-metcon-6.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Free Metcon 6 Premium"
+                        text="Women's Workout Shoes"
+                        price="3,829,000₫"
+                    />
+                </div>
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Free Metcon 6 Premium"
+                                src="https://link-to-nike-metcon-6.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Free Metcon 6 Premium"
+                        text="Women's Workout Shoes"
+                        price="3,829,000₫"
+                    />
+                </div>
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Free Metcon 6 Premium"
+                                src="https://link-to-nike-metcon-6.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Free Metcon 6 Premium"
+                        text="Women's Workout Shoes"
+                        price="3,829,000₫"
+                    />
+                </div>
+                <div className={cx('card-cover')}>
+                    <CardProduct
+                        className={cx('card')}
+                        hoverable
+                        cover={
+                            <img
+                                alt="Nike Free Metcon 6 Premium"
+                                src="https://link-to-nike-metcon-6.jpg"
+                                style={{ height: '200px', objectFit: 'contain' }}
+                            />
+                        }
+                        title="Nike Free Metcon 6 Premium"
+                        text="Women's Workout Shoes"
+                        price="3,829,000₫"
+                    />
+                </div>
+            </Carousel>
+        </div>
+    );
 };
 
-export default App;
+export default SeeWhatIsNew;
