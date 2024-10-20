@@ -1,0 +1,13 @@
+.body {
+    padding: 50px 500px;
+}
+
+/* Ghi đè padding của header */
+.ant-collapse-header {
+    padding: 0 !important; /* Loại bỏ toàn bộ padding */
+}
+
+/* Điều chỉnh icon mũi tên để căn chỉnh phù hợp */
+.ant-collapse-arrow {
+    right: 0 !important; /* Đảm bảo mũi tên nằm sát bên phải */
+}

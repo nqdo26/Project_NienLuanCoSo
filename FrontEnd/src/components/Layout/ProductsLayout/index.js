@@ -1,13 +1,12 @@
 import React from 'react';
-import { Layout, Menu, Col, Row, Typography, Checkbox, Collapse } from 'antd';
+import { Layout, Menu, Typography, Checkbox, Collapse } from 'antd';
 import Header from '~/components/Layout/components/Header';
 import Footer from '~/components/Layout/components/Footer';
 import classNames from 'classnames/bind';
-import styles from './ProductLayout.module.scss';
-import CardProduct from '../../CardProduct';
+import styles from './ProductsLayout.module.scss';
 const cx = classNames.bind(styles);
 
-function ProductLayout() {
+function ProductLayout({ children }) {
     const { Sider, Content } = Layout;
     const { Title } = Typography;
     const { Panel } = Collapse;
@@ -96,28 +95,7 @@ function ProductLayout() {
                     </Sider>
 
                     <Layout>
-                        <Content style={{ padding: '20px' }}>
-                            <Row gutter={[16, 16]}>
-                                <Col span={8}>
-                                   <CardProduct 
-                                        title="Nike Air Max 270 "
-                                        text="hehe"
-                                        color="5 colors"
-                                        price="2,200,000đ"
-
-                                    />
-                                </Col>
-                                <Col span={8}>
-                                   <CardProduct 
-                                        title="Nike Air Max 270 "
-                                        text="hehe"
-                                        color="5 colors"
-                                        price="2,200,000đ"
-
-                                    />
-                                </Col>
-                            </Row>
-                        </Content>
+                        <Content style={{ padding: '20px' }}>{children}</Content>
                     </Layout>
                 </Layout>
             </div>

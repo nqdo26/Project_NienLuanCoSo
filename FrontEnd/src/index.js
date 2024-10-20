@@ -10,6 +10,7 @@ import Register from '~/pages/Register';
 import User from '~/pages/User';
 import Products from '~/pages/Products';
 import { AuthWrapper } from './components/Context/auth.context';
+import Shoes from './pages/Shoes';
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path: 'products',
                 element: <Products />,
+            },
+            {
+                path: 'shoes',
+                element: <Shoes />,
             },
         ],
     },

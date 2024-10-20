@@ -5,6 +5,7 @@ const routes = {
     user: '/user',
     newfeatured: '/newfeatured',
     products: '/products',
+    shoes: '/shoes', 
     sale: '/sale',
 };
 

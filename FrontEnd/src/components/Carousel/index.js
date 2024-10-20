@@ -6,7 +6,7 @@ import styles from './Carousel.module.scss';
 const cx = classNames.bind(styles);
 
 const contentStyle = {
-  height: '785px',
+  height: '900px',
   color: '#fff',
   lineHeight: '160px',
   textAlign: 'center',
