@@ -1,0 +1,114 @@
+.shoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    max-height: 650px;
+    overflow-y: scroll;
+    padding-right: 10px;
+
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+    }
+
+    scrollbar-width: none;
+}
+
+.title {
+    margin-bottom: 0px;
+}
+
+.description {
+    color: var(--silver);
+}
+
+.like {
+    width: 100%;
+}
+
+.size-table {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.size-btn {
+    border-inline-start: 0px;
+    min-width: 80px;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 10%;
+}
+
+//Panel color
+.color-gird {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 41px);
+    gap: 33px;
+    max-width: 200px;
+}
+
+.color-item {
+    align-items: center;
+    cursor: pointer;
+}
+
+.color-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    margin-bottom: 4px;
+    &:hover {
+        border: 1px solid #000;
+    }
+}
+
+.color-item.selected .color-circle {
+    border: 1px solid black;
+}
+
+//action-btn
+.action-btn {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    height: 60px;
+    border-radius: 30px;
+}
+
+//paragraph
+.paragraph-li {
+    list-style-type: disc;
+}
+
+//collapse
+.collapse-ul {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+//panel
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+    padding-left: 0px;
+}
+
+//review
+.review-link {
+    text-decoration: underline;
+    font-weight: 500;
+
+    &:hover {
+        color: var(--silver);
+    }
+}

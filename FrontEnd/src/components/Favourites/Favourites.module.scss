@@ -1,0 +1,50 @@
+.card {
+    max-height: 200px;
+}
+
+.title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.card-cover {
+    padding-right: 10px;
+}
+
+.carousel-wrapper {
+    padding-left: 10px;
+    margin: 0 -8px;
+}
+
+.no-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.title-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    border: 2px solid white;
+    border-radius: 50%;
+    padding: 5px;
+    background-color: rgb(255, 0, 0);
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.heart-icon:hover {
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 0, 0);
+}

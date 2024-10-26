@@ -1,0 +1,98 @@
+.search {
+    width: 180px;
+}
+
+.search {
+    position: relative;
+    height: 37px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(22, 24, 35, 0.06);
+    border-radius: var(--search-border-radius);
+    border: 1.5px solid transparent;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(22, 24, 35, 0.1);
+        .search-btn {
+            background-color: #fff;
+        }
+    }
+
+    .search-placeholder {
+        padding: 0px;
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: rgba(22, 24, 35, 0.5);
+        transition: none;
+    }
+
+    .search-btn {
+        background: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 3px;
+        border: 5px solid transparent;
+        border-radius: 50%;
+        color: rgba(22, 24, 35, 0.75);
+        transition: background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+
+        &:hover {
+            background-color: rgba(22, 24, 35, 0.1);
+            border-radius: 50%;
+        }
+    }
+}
+.search-result {
+    width: 100%;
+    height: 20vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 1000;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu {
+    height: 40vh;
+    background-color: white;
+    z-index: 1000;
+    padding: 16px;
+    position: relative;
+    top: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.overlay.show .menu {
+    transform: translateX(0);
+}
+
+.search-title {
+    padding: 5px 12px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgba(22, 24, 35, 0.5);
+}
