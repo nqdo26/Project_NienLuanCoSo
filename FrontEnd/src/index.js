@@ -14,6 +14,8 @@ import Shoes from './pages/Shoes';
 import Favourite from './pages/Favourite';
 import Bag from './pages/Bag';
 import ProductManage from './pages/ProductManage';
+import AddProduct from './pages/AddProduct';
+import EditProduct from './pages/EditProduct';
 
 const router = createBrowserRouter([
     {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
             {
                 path: 'bag',
                 element: <Bag />,
+            },
+            {
+                path: 'addproduct',
+                element: <AddProduct />,
+            },
+            {
+                path: 'editproduct',
+                element: <EditProduct />,
             },
         ],
     },

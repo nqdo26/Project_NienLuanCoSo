@@ -13,6 +13,8 @@ import Register from '~/pages/Register';
 
 import User from '~/pages/User';
 import ProductManage from '~/pages/ProductManage';
+import AddProduct from '~/pages/AddProduct';
+import EditProduct from '~/pages/EditProduct';
 
 import NewFeatured from '~/pages/NewFeatured';
 import Products from '~/pages/Products';
@@ -34,6 +36,8 @@ const publicRoutes = [
     { path: routesConfig.sale, component: Sale },
     { path: routesConfig.favourite, component: Favourite },
     { path: routesConfig.bag, component: Bag },
+    { path: routesConfig.addproduct, component: AddProduct },
+    { path : routesConfig.editproduct, component: EditProduct },
 
 
 ];

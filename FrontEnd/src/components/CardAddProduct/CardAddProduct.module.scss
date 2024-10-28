@@ -1,0 +1,19 @@
+.card-size {
+    width: 486px; // Điều chỉnh kích thước để khớp với CardProductManage
+    height: 643px;
+    cursor: pointer;
+}
+
+.icon{
+    font-size: 50px;
+    color: #fff;
+    transition: color 0.3s ease; // Hiệu ứng mượt cho màu khi hover
+    background-color: rgb(165, 165, 165);
+    padding: 60px;
+    border-radius: 50%;
+
+}
+
+.card-size:hover .icon {
+    color: black; // Màu mới khi hover vào card
+}
