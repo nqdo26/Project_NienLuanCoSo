@@ -3,6 +3,7 @@ const { createUser, handleLogin, getUser,
     getAccount,
     createAdmin
 } = require('../controllers/userController');
+const { createShoes, getShoes } = require('../controllers/adminController');
 const auth = require('../middleware/auth');
 const delay = require('../middleware/delay');
 const { create } = require('../models/user');
@@ -21,6 +22,10 @@ routerAPI.post("/admin", createAdmin);
 
 routerAPI.get("/user", getUser);
 routerAPI.get("/account", delay, getAccount);
+
+routerAPI.post("/addproduct", createShoes)
+routerAPI.get("/productmanage", getShoes)
+
 
 
 
