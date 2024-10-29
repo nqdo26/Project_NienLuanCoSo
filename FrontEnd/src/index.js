@@ -17,6 +17,7 @@ import ProductManage from './pages/ProductManage';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 
+
 const router = createBrowserRouter([
     {
         path: '/',

@@ -1,51 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-
+import { Spin } from 'antd';  
 import styles from './ProductManage.module.scss';
-
 import CardProductManage from '~/components/CardProductManage';
 import CardAddProduct from '../../components/CardAddProduct';
+import { getShoesApi } from '../../utils/api';
+import { ShoesContext } from '../../components/Context/shoes.context';
 
 const cx = classNames.bind(styles);
 
 function ProductManage() {
-    const [product, setProduct] = useState([]);
+    const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext); 
+    const [product, setProduct] = useState([]); 
 
     useEffect(() => {
-        const items = [
-            { id: 1, title: 'Nike Air Force 1', text: 'Dance version', color: 'White', price: '$120' },
-            { id: 2, title: 'Nike Metcon 9 AMP', text: 'AMP version', color: 'Black', price: '$130' },
-            { id: 3, title: 'Adidas Ultraboost', text: 'Running shoes', color: 'Blue', price: '$140' },
-            { id: 4, title: 'Nike Air Force 2', text: 'Dance version', color: 'White', price: '$120' },
-            { id: 5, title: 'Nike Metcon 8 AMP', text: 'AMP version', color: 'Black', price: '$130' },
-        ];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const fetchShoes = async () => {
+            setAppLoading(true); 
+            try {
+                const res = await getShoesApi();
+                if (res && Array.isArray(res)) {
+                    setProduct(res); 
+                    setShoes(res); 
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error); 
+            } finally {
+                setAppLoading(false); 
+            }
+        };
 
-        setProduct(items);
-    }, []);
+        fetchShoes();
+    }, []); 
 
     const handleDelete = (id) => {
-        setProduct((prevProduct) => prevProduct.filter((item) => item.id !== id));
+        setProduct((prevProduct) => prevProduct.filter((item) => item._id !== id));
     };
 
     return (
         <div className={cx('wrapper')}>
-            {product.length === 0 ? (
-                <CardAddProduct />
-            ) : (
-                <div className={cx('item')}>
-                    {product.map((item) => (
-                        <div key={item.id} className={cx('card-cover')}>
-                            <CardProductManage
-                                title={item.title}
-                                text={item.text}
-                                color={item.color}
-                                price={item.price}
-                                onDelete={() => handleDelete(item.id)}
-                            />
-                        </div>
-                    ))}
-                    <CardAddProduct />
+            {appLoading ? (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: '60%',
+                        left: '57%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                >
+                    <Spin size='large'/>
                 </div>
+            ) : (
+                <>
+                    {product.length === 0 ? (
+                        <CardAddProduct />
+                    ) : (
+                        <div className={cx('item')}>
+                            {product.map((item) => (
+                                <div key={item._id} className={cx('card-cover')}>
+                                    <CardProductManage
+                                        title={item.title}
+                                        tag={item.tag}
+                                        numberOfColors={item.numberOfColors}
+                                        price={item.price}
+                                        onDelete={() => handleDelete(item._id)} 
+                                    />
+                                </div>
+                            ))}
+                            <CardAddProduct />
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

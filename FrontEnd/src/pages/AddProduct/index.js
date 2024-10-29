@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, InputNumber } from 'antd';
+import { Form, Input, Button, InputNumber, notification } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './AddProduct.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { createShoesApi } from '../../utils/api';
 const cx = classNames.bind(styles);
 
 const AddProduct = () => {
+
     // eslint-disable-next-line no-unused-vars
     const [form] = Form.useForm();
     // eslint-disable-next-line no-unused-vars
@@ -39,8 +41,37 @@ const AddProduct = () => {
         setSizes(sizeArray);
     };
 
-    const onFinish = (values) => {
-        console.log('Received values from form: ', values);
+    const navigate = useNavigate();
+    const onFinish = async (values) => {
+        const { title, tag, price, numberOfColors, minSize, maxSize, description } = values;
+
+        const colors = [];
+        for (let i = 1; i <= numberOfColors; i++) {
+            const color = values[`color-${i}`];
+            colors.push(color);
+        }
+
+        const res = await createShoesApi(title, tag, price, numberOfColors, colors, minSize, maxSize, description);
+
+        if (res.EC === 1) {
+            notification.error({
+                message: 'ERROR',
+                description: res.EM,
+            });
+        } else if (res.EC === 0) {
+            notification.success({
+                message: 'CREATE PRODUCT',
+                description: res.EM,
+            });
+            navigate('/productmanage');
+        } else {
+            notification.error({
+                message: 'ERROR',
+                description: 'An error occurred',
+            });
+        }
+
+        console.log('>> Success: ', res);
     };
 
     return (
@@ -65,7 +96,12 @@ const AddProduct = () => {
                         name="price"
                         rules={[{ required: true, message: 'Please input the price!' }]}
                     >
-                        <InputNumber min={0} style={{ width: '100%' }} placeholder="Enter price" />
+                        <InputNumber
+                            min={0}
+                            style={{ width: '100%' }}
+                            placeholder="Enter price"
+                            parser={(value) => value.replace(/[^0-9]/g, '')}
+                        />
                     </Form.Item>
 
                     <Form.Item
@@ -75,10 +111,11 @@ const AddProduct = () => {
                     >
                         <InputNumber
                             min={1}
-                            max={5}
+                            max={3}
                             onChange={handleNumberOfColorsChange}
                             style={{ width: '100%' }}
                             placeholder="Enter number of colors"
+                            parser={(value) => value.replace(/[^0-3]/g, '')}
                         />
                     </Form.Item>
 
@@ -96,6 +133,7 @@ const AddProduct = () => {
                                 placeholder="Min Size (≥ 35)"
                                 style={{ width: '48%', marginRight: '4%' }}
                                 onChange={(value) => handleSizeChange(value, form.getFieldValue('maxSize'))}
+                                parser={(value) => value.replace(/[^0-9]/g, '')}
                             />
                         </Form.Item>
                         <Form.Item
@@ -109,6 +147,7 @@ const AddProduct = () => {
                                 placeholder="Max Size (≤ 45)"
                                 style={{ width: '48%' }}
                                 onChange={(value) => handleSizeChange(form.getFieldValue('minSize'), value)}
+                                parser={(value) => value.replace(/[^0-9]/g, '')}
                             />
                         </Form.Item>
                     </Form.Item>

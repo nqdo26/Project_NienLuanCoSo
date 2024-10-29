@@ -6,6 +6,7 @@ import axios from './utils/axios.custiomize';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 import { Spin } from 'antd';
+import { ShoesWrapper } from '~/components/Context/shoes.context'; // Import ShoesWrapper
 
 function App() {
     const { setAuth, appLoading, setAppLoading } = useContext(AuthContext);
@@ -42,7 +43,7 @@ function App() {
                         transform: 'translate(-50%, -50%)',
                     }}
                 >
-                    <Spin size='large'/>
+                    <Spin size="large" />
                 </div>
             ) : (
                 <>
@@ -64,7 +65,9 @@ function App() {
                                     element={
                                         <>
                                             <Layout>
-                                                <Page />
+                                                <ShoesWrapper>
+                                                    <Page />
+                                                </ShoesWrapper>
                                             </Layout>
                                         </>
                                     }
