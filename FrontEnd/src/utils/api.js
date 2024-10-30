@@ -43,9 +43,16 @@ const createShoesApi = (title, tag, price, numberOfColors, colors, minSize, maxS
     return axios.post(URL_API, data);
 };
 
-const getShoesApi = () => {
+const getListShoesApi = () => {
     const URL_API = '/v1/api/productmanage';
     return axios.get(URL_API);
 };
 
-export { createUserApi, loginApi, getUserApi, createShoesApi, getShoesApi};
+const getShoesApi = (_id) => {
+    const URL_API = '/v1/api/productmanage/' + _id; 
+    return axios.get(URL_API); 
+};
+
+
+
+export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi };

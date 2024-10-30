@@ -6,7 +6,7 @@ import axios from './utils/axios.custiomize';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 import { Spin } from 'antd';
-import { ShoesWrapper } from '~/components/Context/shoes.context'; // Import ShoesWrapper
+import { ShoesWrapper } from '~/components/Context/shoes.context'; 
 
 function App() {
     const { setAuth, appLoading, setAppLoading } = useContext(AuthContext);

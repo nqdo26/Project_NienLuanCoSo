@@ -13,7 +13,7 @@ const routes = {
     products: '/products',
     sale: '/sale',
 
-    shoes: '/shoes', 
+    shoes: '/productmanage/:_id', 
     favourite: '/favourite',
     bag: '/bag',
 };

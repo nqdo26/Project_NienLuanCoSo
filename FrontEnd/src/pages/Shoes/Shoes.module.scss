@@ -21,7 +21,7 @@
     margin-bottom: 0px;
 }
 
-.description {
+.tag {
     color: var(--silver);
 }
 
@@ -111,4 +111,10 @@
     &:hover {
         color: var(--silver);
     }
+}
+
+.spin-wrapper {
+    display: flex;
+    height: 500px;
+    width: 100%;
 }
