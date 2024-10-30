@@ -35,7 +35,7 @@ const createShoesService = async (title, tag, price, numberOfColors, colors, min
     }
 };
 
-const getShoesService = async () => {
+const getListShoesService = async () => {
     try {
         let result = await Shoes.find({});
         return result;
@@ -45,7 +45,30 @@ const getShoesService = async () => {
     }
 }
 
+const getShoesByIdService = async (_id) => {
+    try {
+        const shoes = await Shoes.findOne({ _id});
+        if (!shoes) {
+            return {
+                EC: 1,
+                EM: `Product ${title} not found`,
+            };
+        }
+        return {
+            EC: 0,
+            EM: "Get product success",
+            data: shoes,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+};
+
 
 module.exports = {
-    createShoesService, getShoesService
+    createShoesService, getListShoesService, getShoesByIdService
 }
