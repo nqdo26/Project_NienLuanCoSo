@@ -49,17 +49,19 @@ const Favourites = () => {
                                             className={cx('heart-icon')}
                                             onClick={() => removeFavourite(item.id)}
                                         />
-                                        <div className={cx('title-card')}>
-                                            <Title style={{ margin: '0px', fontSize: '16px' }} level={5}>
-                                                {item.title}
-                                            </Title>
-                                            <Title level={5}>{item.price}</Title>
-                                        </div>
-                                        <Text type="secondary">{item.text}</Text>
-                                        <br />
-                                        <Button type="primary" style={{ marginTop: '10px' }}>
-                                            Add To Bag
-                                        </Button>
+                                      <div clasName={cx('card-items')}>
+                                            <div className={cx('title-card')}>
+                                                <Title style={{ margin: '0px', fontSize: '16px' }} level={5}>
+                                                    {item.title}
+                                                </Title>
+                                                <Title level={5}>{item.price}₫</Title>
+                                            </div>
+                                            <Text className={cx('decription-card')} type="secondary">{item.description}</Text>
+                                            <br />
+                                            <Button type="primary" style={{ marginTop: '10px' }}>
+                                                Add To Bag
+                                            </Button>
+                                      </div>
                                     </div>
                                 </Card>
                             </div>

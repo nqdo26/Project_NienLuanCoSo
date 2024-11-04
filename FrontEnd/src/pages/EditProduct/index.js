@@ -1,31 +1,79 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, InputNumber } from 'antd';
+import React, { useState, useContext, useEffect } from 'react';
+import { Form, Input, Button, InputNumber, Spin, message } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
-import { Link } from 'react-router-dom';
+import { ShoesContext } from '../../components/Context/shoes.context';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getShoesApiForEdit, updateShoesApi } from '../../utils/api'; // Giữ nguyên chỉ hàm lấy thông tin
+
 const cx = classNames.bind(styles);
 
 const EditProduct = () => {
-    // eslint-disable-next-line no-unused-vars
+    const { _id } = useParams();
+    const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
     const [form] = Form.useForm();
-    // eslint-disable-next-line no-unused-vars
-    const [numberOfColors, setNumberOfColors] = useState(0);
     const [colorFields, setColorFields] = useState([]);
     const [sizes, setSizes] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const fetchShoes = async () => {
+            setAppLoading(true);
+            try {
+                const response = await getShoesApiForEdit(_id);
+                console.log('>>>Data:', response.data);
+
+                if (response && response.data) {
+                    setShoes(response.data);
+                    form.setFieldsValue({
+                        title: response.data.title,
+                        tag: response.data.tag,
+                        price: response.data.price,
+                        numberOfColors: response.data.colors.length,
+                        description: response.data.description,
+                        minSize: response.data.minSize,
+                        maxSize: response.data.maxSize,
+                    });
+
+                    setColorFields(
+                        response.data.colors.map((color, index) => (
+                            <Form.Item
+                                key={`color-${index}`}
+                                label={`Color ${index + 1}`}
+                                name={`color-${index + 1}`}
+                                rules={[{ required: true, message: 'Please input the color!' }]}
+                            >
+                                <Input placeholder={`Enter color ${index + 1}`} defaultValue={color} />
+                            </Form.Item>
+                        )),
+                    );
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setAppLoading(false);
+            }
+        };
+
+        fetchShoes();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [_id, form]);
 
     const handleNumberOfColorsChange = (value) => {
-        setNumberOfColors(value);
-        const colors = Array.from({ length: value }, (_, index) => (
-            <Form.Item
-                key={`color-${index}`}
-                label={`Color ${index + 1}`}
-                name={`color-${index + 1}`}
-                rules={[{ required: true, message: 'Please input the color!' }]}
-            >
-                <Input placeholder={`Enter color ${index + 1}`} />
-            </Form.Item>
-        ));
-        setColorFields(colors);
+        setColorFields((prevFields) => {
+            const colors = Array.from({ length: value }, (_, index) => (
+                <Form.Item
+                    key={`color-${index}`}
+                    label={`Color ${index + 1}`}
+                    name={`color-${index + 1}`}
+                    rules={[{ required: true, message: 'Please input the color!' }]}
+                >
+                    <Input placeholder={`Enter color ${index + 1}`} />
+                </Form.Item>
+            ));
+            return colors;
+        });
     };
 
     const handleSizeChange = (minSize, maxSize) => {
@@ -39,111 +87,161 @@ const EditProduct = () => {
         setSizes(sizeArray);
     };
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log('Received values from form: ', values);
+        try {
+            const colors = [];
+            for (let i = 0; i < values.numberOfColors; i++) {
+                colors.push(values[`color-${i + 1}`]);
+            }
+    
+            const response = await updateShoesApi(
+                _id,
+                values.title,
+                values.tag,
+                values.price,
+                values.numberOfColors,
+                colors,
+                values.minSize,
+                values.maxSize,
+                values.description
+            );
+    
+            console.log('API Response:', response);
+    
+            if (response.EC === 0) {
+                message.success('Update product success');
+                navigate('/productmanage');
+            } else {
+                message.error(response.data.EM);
+                message.error('Error update product');
+            }
+        } catch (error) {
+            console.error('Failed to update shoe:', error);
+            message.error('An error occurred while updating the product.');
+        }
     };
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('form-size')}>
                 <h1 className={cx('title')}>Edit Product</h1>
-                <Form form={form} layout="vertical" onFinish={onFinish}>
-                    <Form.Item
-                        label="Title"
-                        name="title"
-                        rules={[{ required: true, message: 'Please input the title!' }]}
-                    >
-                        <Input placeholder="Enter shoe title" />
-                    </Form.Item>
-
-                    <Form.Item label="Tag" name="tag" rules={[{ required: true, message: 'Please input the tag!' }]}>
-                        <Input placeholder="Enter product tag" />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Price"
-                        name="price"
-                        rules={[{ required: true, message: 'Please input the price!' }]}
-                    >
-                        <InputNumber min={0} style={{ width: '100%' }} placeholder="Enter price" />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Number of Colors"
-                        name="numberOfColors"
-                        rules={[{ required: true, message: 'Please select the number of colors!' }]}
-                    >
-                        <InputNumber
-                            min={1}
-                            max={5}
-                            onChange={handleNumberOfColorsChange}
-                            style={{ width: '100%' }}
-                            placeholder="Enter number of colors"
-                        />
-                    </Form.Item>
-
-                    {colorFields}
-
-                    <Form.Item label="Size Range" required>
+                {appLoading ? (
+                    <div className={cx('spin-wrapper')}>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '60%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)',
+                            }}
+                        >
+                            <Spin size="large" />
+                        </div>
+                    </div>
+                ) : (
+                    <Form form={form} layout="vertical" onFinish={onFinish}>
                         <Form.Item
-                            name="minSize"
-                            noStyle
-                            rules={[{ required: true, message: 'Please select a minimum size!' }]}
+                            label="Title"
+                            name="title"
+                            rules={[{ required: true, message: 'Please input the title!' }]}
+                        >
+                            <Input placeholder="Enter shoe title" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Tag"
+                            name="tag"
+                            rules={[{ required: true, message: 'Please input the tag!' }]}
+                        >
+                            <Input placeholder="Enter product tag" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Price"
+                            name="price"
+                            rules={[{ required: true, message: 'Please input the price!' }]}
+                        >
+                            <InputNumber min={0} style={{ width: '100%' }} placeholder="Enter price" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Number of Colors"
+                            name="numberOfColors"
+                            rules={[{ required: true, message: 'Please select the number of colors!' }]}
                         >
                             <InputNumber
-                                min={35}
-                                max={45}
-                                placeholder="Min Size (≥ 35)"
-                                style={{ width: '48%', marginRight: '4%' }}
-                                onChange={(value) => handleSizeChange(value, form.getFieldValue('maxSize'))}
+                                min={1}
+                                max={5}
+                                onChange={handleNumberOfColorsChange}
+                                style={{ width: '100%' }}
+                                placeholder="Enter number of colors"
                             />
                         </Form.Item>
-                        <Form.Item
-                            name="maxSize"
-                            noStyle
-                            rules={[{ required: true, message: 'Please select a maximum size!' }]}
-                        >
-                            <InputNumber
-                                min={35}
-                                max={45}
-                                placeholder="Max Size (≤ 45)"
-                                style={{ width: '48%' }}
-                                onChange={(value) => handleSizeChange(form.getFieldValue('minSize'), value)}
-                            />
-                        </Form.Item>
-                    </Form.Item>
 
-                    {sizes.length > 0 && (
-                        <Form.Item label="Available Sizes">
-                            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                                {sizes.map((size, index) => (
-                                    <div key={index} style={{ width: '20%', marginBottom: '8px' }}>
-                                        {size}
-                                    </div>
-                                ))}
+                        {colorFields}
+
+                        <Form.Item label="Size Range" required>
+                            <Form.Item
+                                name="minSize"
+                                noStyle
+                                rules={[{ required: true, message: 'Please select a minimum size!' }]}
+                            >
+                                <InputNumber
+                                    min={35}
+                                    max={45}
+                                    placeholder="Min Size (≥ 35)"
+                                    style={{ width: '48%', marginRight: '4%' }}
+                                    onChange={(value) => handleSizeChange(value, form.getFieldValue('maxSize'))}
+                                />
+                            </Form.Item>
+                            <Form.Item
+                                name="maxSize"
+                                noStyle
+                                rules={[{ required: true, message: 'Please select a maximum size!' }]}
+                            >
+                                <InputNumber
+                                    min={35}
+                                    max={45}
+                                    placeholder="Max Size (≤ 45)"
+                                    style={{ width: '48%' }}
+                                    onChange={(value) => handleSizeChange(form.getFieldValue('minSize'), value)}
+                                />
+                            </Form.Item>
+                        </Form.Item>
+
+                        {sizes.length > 0 && (
+                            <Form.Item label="Available Sizes">
+                                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                                    {sizes.map((size, index) => (
+                                        <div key={index} style={{ width: '20%', marginBottom: '8px' }}>
+                                            {size}
+                                        </div>
+                                    ))}
+                                </div>
+                            </Form.Item>
+                        )}
+
+                        <Form.Item
+                            label="Description"
+                            name="description"
+                            rules={[{ required: true, message: 'Please input the description!' }]}
+                        >
+                            <Input.TextArea placeholder="Enter product description" rows={4} />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <div className={cx('action-btn')}>
+                                <Button type="primary" htmlType="submit">
+                                    Submit
+                                </Button>
+                                <Link to="/productmanage">
+                                    <Button>Back</Button>
+                                </Link>
                             </div>
                         </Form.Item>
-                    )}
-
-                    <Form.Item
-                        label="Description"
-                        name="description"
-                        rules={[{ required: true, message: 'Please input the description!' }]}
-                    >
-                        <Input.TextArea placeholder="Enter product description" rows={4} />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <div className={cx('action-btn')}>
-                            <Button type="primary" htmlType="submit">
-                                Add Product
-                            </Button>
-                            <Link to="/productmanage">
-                                <Button>Back</Button>
-                            </Link>
-                        </div>
-                    </Form.Item>
-                </Form>
+                    </Form>
+                )}
             </div>
         </div>
     );

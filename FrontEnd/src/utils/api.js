@@ -49,10 +49,28 @@ const getListShoesApi = () => {
 };
 
 const getShoesApi = (_id) => {
-    const URL_API = '/v1/api/productmanage/' + _id; 
-    return axios.get(URL_API); 
+    const URL_API = '/v1/api/productmanage/' + _id;
+    return axios.get(URL_API);
 };
 
+const getShoesApiForEdit = (_id) => {
+    const URL_API = '/v1/api/editproduct/' + _id;
+    return axios.get(URL_API);
+};
 
+const updateShoesApi = (_id, title, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+    const URL_API = '/v1/api/editproduct/' + _id;
+    const data = {
+        title,
+        tag,
+        price,
+        numberOfColors,
+        colors,
+        minSize,
+        maxSize,
+        description,
+    };
+    return axios.put(URL_API, data);
+}
 
-export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi };
+export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi, getShoesApiForEdit, updateShoesApi };

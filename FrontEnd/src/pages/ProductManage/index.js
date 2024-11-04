@@ -39,6 +39,8 @@ function ProductManage() {
         setProduct((prevProduct) => prevProduct.filter((item) => item._id !== id));
     };
 
+  
+
     return (
         <div className={cx('wrapper')}>
             {appLoading ? (
@@ -62,6 +64,7 @@ function ProductManage() {
                                 <Link to={`/productmanage/${item._id}`} key={item._id}>
                                     <div key={item._id} className={cx('card-cover')}>
                                         <CardProductManage
+                                            id={item._id}
                                             title={item.title}
                                             tag={item.tag}
                                             numberOfColors={item.numberOfColors}

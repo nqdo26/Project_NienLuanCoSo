@@ -21,7 +21,7 @@ function Shoes() {
     const [shoes, setAShoes] = useState();
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+       // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
@@ -73,9 +73,10 @@ function Shoes() {
 
     const addToFavourites = () => {
         const product = {
-            id: Date.now(),
-            title: 'Nike Air Max SC',
-            price: '2,189,000₫',
+            id: shoes._id,
+            title: shoes.title,
+            description: shoes.description,
+            price: shoes.price,
             imgSrc: mainImage,
             size: size,
             color: selectedColor,
@@ -156,7 +157,7 @@ function Shoes() {
     return (
         <div className={cx('wrapper')}>
             {appLoading ? (
-                <dic className={cx('spin-wrapper')}>
+                <div className={cx('spin-wrapper')}>
                     <div
                         style={{
                             position: 'absolute',
@@ -167,7 +168,7 @@ function Shoes() {
                     >
                         <Spin size="large" />
                     </div>
-                </dic>
+                </div>
             ) : (
                 <>
                     {shoes ? (

@@ -1,49 +1,78 @@
-import { Col } from 'antd';
-import { Layout, Row } from 'antd';
-import CardProduct from '~/components/CardProduct';
+import React, { useContext, useEffect, useState } from 'react';
+import { Spin } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './Products.module.scss';
 import { Link } from 'react-router-dom';
+import { getListShoesApi } from '../../utils/api';
+import { ShoesContext } from '../../components/Context/shoes.context';
+import CardProductManage from '~/components/CardProductManage';
 
 const cx = classNames.bind(styles);
 
 function Products() {
+    const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
+    const [product, setProduct] = useState([]);
+
+    useEffect(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        const fetchShoes = async () => {
+            setAppLoading(true);
+            try {
+                const res = await getListShoesApi();
+                if (res && Array.isArray(res)) {
+                    setProduct(res);
+                    setShoes(res);
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            } finally {
+                setAppLoading(false);
+            }
+        };
+
+        fetchShoes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleDelete = (id) => {
+        setProduct((prevProduct) => prevProduct.filter((item) => item._id !== id));
+    };
     return (
-        <div className={cx('inner')}>
-            <Layout>
-                <Row gutter={[16, 16]}>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Max 270 " text="hehe" color="5 colors" price="2,200,000đ" />
-                        </Link>
-                    </Col>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Jordan 42 " text="keke" color="3 colors" price="1,000,000đ" />
-                        </Link>
-                    </Col>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Max 270 " text="hehe" color="5 colors" price="2,200,000đ" />
-                        </Link>
-                    </Col>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Max 270 " text="hehe" color="5 colors" price="2,200,000đ" />
-                        </Link>
-                    </Col>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Max 270 " text="hehe" color="5 colors" price="2,200,000đ" />
-                        </Link>
-                    </Col>
-                    <Col span={8}>
-                        <Link to="/shoes">
-                            <CardProduct title="Nike Air Max 270 " text="hehe" color="5 colors" price="2,200,000đ" />
-                        </Link>
-                    </Col>
-                </Row>
-            </Layout>
+        <div className={cx('wrapper')}>
+            {appLoading ? (
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: '65%',
+                        left: '57%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                >
+                    <Spin size="large" />
+                </div>
+            ) : (
+                <>
+                    {product.length === 0 ? (
+                       <p>No product</p>
+                    ) : (
+                        <div className={cx('item')}>
+                            {product.map((item) => (
+                                <Link to={`/productmanage/${item._id}`} key={item._id}>
+                                    <div key={item._id} className={cx('card-cover')}>
+                                        <CardProductManage
+                                            title={item.title}
+                                            tag={item.tag}
+                                            numberOfColors={item.numberOfColors}
+                                            price={item.price}
+                                            onDelete={() => handleDelete(item._id)}
+                                        />
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+                </>
+            )}
         </div>
     );
 }
