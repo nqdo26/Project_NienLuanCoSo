@@ -68,7 +68,31 @@ const getShoesByIdService = async (_id) => {
     }
 };
 
+const updateShoesService = async (_id, updatedData) => {
+    try {
+        const shoes = await Shoes.findByIdAndUpdate(_id, updatedData, { new: true });
+        if (!shoes) {
+            return {
+                EC: 1,
+                EM: `Product not found`,
+            };
+        }
+        return {
+            EC: 0,
+            EM: "Update product success",
+            data: shoes,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+};
+
+
 
 module.exports = {
-    createShoesService, getListShoesService, getShoesByIdService
+    createShoesService, getListShoesService, getShoesByIdService, updateShoesService,
 }
