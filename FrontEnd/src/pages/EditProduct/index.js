@@ -1,10 +1,13 @@
+
+
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Form, Input, Button, InputNumber, Spin, message } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getShoesApiForEdit, updateShoesApi } from '../../utils/api'; // Giữ nguyên chỉ hàm lấy thông tin
+import { getShoesApiForEdit, updateShoesApi } from '../../utils/api'; 
 
 const cx = classNames.bind(styles);
 
@@ -14,16 +17,16 @@ const EditProduct = () => {
     const [form] = Form.useForm();
     const [colorFields, setColorFields] = useState([]);
     const [sizes, setSizes] = useState([]);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
+    const [initialColors, setInitialColors] = useState([]); 
     const navigate = useNavigate();
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+         // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
                 const response = await getShoesApiForEdit(_id);
-                console.log('>>>Data:', response.data);
-
                 if (response && response.data) {
                     setShoes(response.data);
                     form.setFieldsValue({
@@ -35,19 +38,23 @@ const EditProduct = () => {
                         minSize: response.data.minSize,
                         maxSize: response.data.maxSize,
                     });
-
+                    setInitialColors(response.data.colors); 
                     setColorFields(
-                        response.data.colors.map((color, index) => (
-                            <Form.Item
-                                key={`color-${index}`}
-                                label={`Color ${index + 1}`}
-                                name={`color-${index + 1}`}
-                                rules={[{ required: true, message: 'Please input the color!' }]}
-                            >
-                                <Input placeholder={`Enter color ${index + 1}`} defaultValue={color} />
-                            </Form.Item>
-                        )),
+                        response.data.colors.map((color, index) => {
+                            return (
+                                <Form.Item
+                                    key={`color-${index}`}
+                                    label={`Color ${index + 1}`}
+                                    name={`color-${index + 1}`}
+                                    initialValue={color}
+                                    rules={[{ required: true, message: 'Please input the color!' }]}
+                                >
+                                    <Input placeholder={`Enter color ${index + 1}`} />
+                                </Form.Item>
+                            );
+                        })
                     );
+                    
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -57,7 +64,7 @@ const EditProduct = () => {
         };
 
         fetchShoes();
-         // eslint-disable-next-line react-hooks/exhaustive-deps
+           // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_id, form]);
 
     const handleNumberOfColorsChange = (value) => {
@@ -88,13 +95,13 @@ const EditProduct = () => {
     };
 
     const onFinish = async (values) => {
-        console.log('Received values from form: ', values);
+        setLoadingUpdate(true); 
+        const colors = [];
+        for (let i = 0; i < values.numberOfColors; i++) {
+            colors.push(values[`color-${i + 1}`] || initialColors[i]); // Dùng giá trị từ initialColors nếu không chỉnh sửa
+        }
+
         try {
-            const colors = [];
-            for (let i = 0; i < values.numberOfColors; i++) {
-                colors.push(values[`color-${i + 1}`]);
-            }
-    
             const response = await updateShoesApi(
                 _id,
                 values.title,
@@ -106,9 +113,7 @@ const EditProduct = () => {
                 values.maxSize,
                 values.description
             );
-    
-            console.log('API Response:', response);
-    
+
             if (response.EC === 0) {
                 message.success('Update product success');
                 navigate('/productmanage');
@@ -119,6 +124,8 @@ const EditProduct = () => {
         } catch (error) {
             console.error('Failed to update shoe:', error);
             message.error('An error occurred while updating the product.');
+        } finally {
+            setLoadingUpdate(false);
         }
     };
 
@@ -232,9 +239,10 @@ const EditProduct = () => {
 
                         <Form.Item>
                             <div className={cx('action-btn')}>
-                                <Button type="primary" htmlType="submit">
-                                    Submit
-                                </Button>
+                            <Button type="primary" htmlType="submit" loading={loadingUpdate}>
+                                {loadingUpdate ? "Submitting..." : "Submit"}
+                            </Button>
+
                                 <Link to="/productmanage">
                                     <Button>Back</Button>
                                 </Link>

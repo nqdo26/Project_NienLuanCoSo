@@ -56,7 +56,7 @@ const Favourites = () => {
                                                 </Title>
                                                 <Title level={5}>{item.price}₫</Title>
                                             </div>
-                                            <Text className={cx('decription-card')} type="secondary">{item.description}</Text>
+                                            <Text className={cx('decription-card')} type="secondary">{item.tag}</Text>
                                             <br />
                                             <Button type="primary" style={{ marginTop: '10px' }}>
                                                 Add To Bag

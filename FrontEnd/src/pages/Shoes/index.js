@@ -75,6 +75,7 @@ function Shoes() {
         const product = {
             id: shoes._id,
             title: shoes.title,
+            tag: shoes.tag,
             description: shoes.description,
             price: shoes.price,
             imgSrc: mainImage,
