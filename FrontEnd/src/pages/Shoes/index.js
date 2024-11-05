@@ -2,12 +2,14 @@ import classNames from 'classnames/bind';
 import styles from './Shoes.module.scss';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Radio, Image, Typography, Rate, Collapse, notification } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, HeartOutlined } from '@ant-design/icons';
 import { Card, Space } from 'antd';
 import { Spin } from 'antd';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getShoesApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
+import { AuthContext } from '~/components/Context/auth.context';
+import { deleteShoesApi } from '../../utils/api';
 
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -19,6 +21,11 @@ function Shoes() {
     const { _id } = useParams();
     const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
     const [shoes, setAShoes] = useState();
+    const { auth } = useContext(AuthContext);
+    const [size, setSize] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
+    const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400')
+    const navigate = useNavigate();
 
     useEffect(() => {
        // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,9 +51,7 @@ function Shoes() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_id]);
 
-    const [size, setSize] = useState(null);
-    const [selectedColor, setSelectedColor] = useState(null);
-    const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400');
+;
 
     const thumbnails = [
         'https://via.placeholder.com/400x400',
@@ -155,6 +160,35 @@ function Shoes() {
         }
     };
 
+    const handleDeleteShoes = async () => {
+        try {
+            const response = await deleteShoesApi(shoes._id); 
+            console.log ('>>>Delete product:', response.data);
+                if (response.EC === 0) {
+                    notification.success({
+                        message: 'Success',
+                        description: 'Product deleted successfully.',
+                        placement: 'topRight',
+                    });
+                    navigate(`/productmanage`); 
+                } else {
+                    notification.error({
+                        message: 'Error',
+                        description: response.data ? response.data.EM : 'An unexpected error occurred.',
+                        placement: 'topRight',
+                    });
+                }
+            
+        } catch (error) {
+            notification.error({
+                message: 'Error',
+                description: 'An error occurred while deleting the product.',
+                placement: 'topRight',
+            });
+            console.error('Error deleting product:', error);
+        }
+    };
+    
     return (
         <div className={cx('wrapper')}>
             {appLoading ? (
@@ -166,7 +200,7 @@ function Shoes() {
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
                         }}
-                    >
+                        >
                         <Spin size="large" />
                     </div>
                 </div>
@@ -177,6 +211,19 @@ function Shoes() {
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <div>
                                     <Card style={{ width: 500, padding: 20, border: 0 }}>
+                                    {auth.user.role === 'ADMIN'
+                    ? [
+                          <div className={cx('icon-group')} key="icons">
+                              <Link to={`/editproduct/${shoes._id}`} className={cx('icon')}>
+                                  <EditOutlined />
+                              </Link>
+                              <div className={cx('divider')}></div>
+                              <button className={cx('icon')} onClick={handleDeleteShoes}>
+                                  <DeleteOutlined />
+                              </button>
+                          </div>,
+                      ]
+                    : null}
                                         <Space align="start" size={16}>
                                             <Space direction="vertical" size={8}>
                                                 {thumbnails.map((src, index) => (

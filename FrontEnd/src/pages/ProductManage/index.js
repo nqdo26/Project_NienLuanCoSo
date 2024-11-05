@@ -7,6 +7,7 @@ import CardAddProduct from '../../components/CardAddProduct';
 import { getListShoesApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { Link } from 'react-router-dom';
+import { deleteShoesApi } from '../../utils/api';
 
 const cx = classNames.bind(styles);
 
@@ -35,11 +36,15 @@ function ProductManage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleDelete = (id) => {
-        setProduct((prevProduct) => prevProduct.filter((item) => item._id !== id));
+    const handleDelete = async (id) => {
+        try {
+            await deleteShoesApi(id); // Gọi API để xóa sản phẩm
+            setProduct((prevProduct) => prevProduct.filter((item) => item._id !== id));
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
     };
 
-  
 
     return (
         <div className={cx('wrapper')}>
@@ -64,12 +69,13 @@ function ProductManage() {
                                 <Link to={`/productmanage/${item._id}`} key={item._id}>
                                     <div key={item._id} className={cx('card-cover')}>
                                         <CardProductManage
+                                            key={item._id}
                                             id={item._id}
                                             title={item.title}
                                             tag={item.tag}
                                             numberOfColors={item.numberOfColors}
                                             price={item.price}
-                                            onDelete={() => handleDelete(item._id)}
+                                            onDelete={handleDelete} 
                                         />
                                     </div>
                                 </Link>

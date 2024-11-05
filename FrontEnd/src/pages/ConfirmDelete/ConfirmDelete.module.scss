@@ -118,31 +118,3 @@
     height: 500px;
     width: 100%;
 }
-
-// icon action
-.icon-group {
-    position: absolute;
-    right: -675px;
-    display: flex;
-    z-index: 1; 
-}
-
-.divider {
-    height: 25px; 
-    width: 1px;
-    background-color: #000; 
-    margin: 0 10px; 
-    margin-top: 5px
-}
-
-.icon {
-    background: none;
-    font-size: 22px;
-    padding: 2px;
-    cursor: pointer;
-    transition: color 0.3s;
-
-    &:hover {
-        color: #f5222d; 
-    }
-}

@@ -23,6 +23,7 @@ import Sale from '~/pages/Sale';
 import Shoes from '~/pages/Shoes';
 import Favourite from '~/pages/Favourite';
 import Bag from '~/pages/Bag';
+import ConfirmDelete from '~/pages/ConfirmDelete';
 
 const publicRoutes = [
     { path: routesConfig.register, component: Register, layout: LoginLayout },
@@ -38,7 +39,7 @@ const publicRoutes = [
     { path: routesConfig.bag, component: Bag },
     { path: routesConfig.addproduct, component: AddProduct },
     { path : routesConfig.editproduct, component: EditProduct },
-
+    { path: routesConfig.confirmdelete, component: ConfirmDelete },
 
 ];
 

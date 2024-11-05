@@ -73,4 +73,10 @@ const updateShoesApi = (_id, title, tag, price, numberOfColors, colors, minSize,
     return axios.put(URL_API, data);
 }
 
-export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi, getShoesApiForEdit, updateShoesApi };
+const deleteShoesApi = (_id) => {
+    const URL_API = '/v1/api/productmanage/' + _id;
+    return axios.delete(URL_API);
+}
+
+export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi, getShoesApiForEdit, updateShoesApi, deleteShoesApi };
+ 

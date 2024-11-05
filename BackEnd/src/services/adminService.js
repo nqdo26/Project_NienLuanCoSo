@@ -91,8 +91,28 @@ const updateShoesService = async (_id, updatedData) => {
     }
 };
 
-
+const deleteShoesService = async (_id) => {
+    try {
+        const shoes = await Shoes.findByIdAndDelete(_id);
+        if (!shoes) {
+            return {
+                EC: 1,
+                EM: `Product not found`,
+            };
+        }
+        return {
+            EC: 0,
+            EM: "Delete product success",
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+}
 
 module.exports = {
-    createShoesService, getListShoesService, getShoesByIdService, updateShoesService,
+    createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService
 }

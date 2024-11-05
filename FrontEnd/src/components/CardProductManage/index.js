@@ -1,16 +1,17 @@
 import { Card, Typography } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './CardProductManage.module.scss';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { SettingOutlined} from '@ant-design/icons';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
-import { Link } from 'react-router-dom';
+
 
 const cx = classNames.bind(styles);
 
-function CardProductManage({ id, title, tag, numberOfColors, price, onDelete }) {
+function CardProductManage({ id, title, tag, numberOfColors, price }) {
     const { auth } = useContext(AuthContext);
     const { Title, Text } = Typography;
+
 
     const formatPrice = (price) => {
         return price.toLocaleString();
@@ -22,12 +23,10 @@ function CardProductManage({ id, title, tag, numberOfColors, price, onDelete }) 
                 {auth.user.role === 'ADMIN'
                     ? [
                           <div className={cx('icon-group')} key="icons">
-                              <Link to={`/editproduct/${id}`} className={cx('icon')}>
-                                  <EditOutlined />
-                              </Link>
-                              <button className={cx('icon')} onClick={onDelete}>
-                                  <DeleteOutlined />
-                              </button>
+                              <div  className={cx('icon')}>
+                                <SettingOutlined />
+                              </div>
+                        
                           </div>,
                       ]
                     : null}

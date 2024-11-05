@@ -1,12 +1,9 @@
-
-
-
 import React, { useState, useContext, useEffect } from 'react';
 import { Form, Input, Button, InputNumber, Spin, message } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
 import { ShoesContext } from '../../components/Context/shoes.context';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getShoesApiForEdit, updateShoesApi } from '../../utils/api'; 
 
 const cx = classNames.bind(styles);
@@ -98,7 +95,7 @@ const EditProduct = () => {
         setLoadingUpdate(true); 
         const colors = [];
         for (let i = 0; i < values.numberOfColors; i++) {
-            colors.push(values[`color-${i + 1}`] || initialColors[i]); // Dùng giá trị từ initialColors nếu không chỉnh sửa
+            colors.push(values[`color-${i + 1}`] || initialColors[i]); 
         }
 
         try {
@@ -116,7 +113,7 @@ const EditProduct = () => {
 
             if (response.EC === 0) {
                 message.success('Update product success');
-                navigate('/productmanage');
+                navigate(`/productmanage/${_id}`); 
             } else {
                 message.error(response.data.EM);
                 message.error('Error update product');
@@ -127,6 +124,10 @@ const EditProduct = () => {
         } finally {
             setLoadingUpdate(false);
         }
+    };
+
+    const handleBack = () => {
+        navigate(`/productmanage/${_id}`); 
     };
 
     return (
@@ -243,9 +244,9 @@ const EditProduct = () => {
                                 {loadingUpdate ? "Submitting..." : "Submit"}
                             </Button>
 
-                                <Link to="/productmanage">
-                                    <Button>Back</Button>
-                                </Link>
+                    
+                                    <Button onClick={handleBack}>Back</Button>
+                               
                             </div>
                         </Form.Item>
                     </Form>

@@ -6,7 +6,7 @@ import classNames from 'classnames/bind';
 import styles from './ProductsLayout.module.scss';
 const cx = classNames.bind(styles);
 
-function ProductLayout({ children }) {
+function ProductLayout({ children, key }) {
     const { Sider, Content } = Layout;
     const { Title } = Typography;
     const { Panel } = Collapse;

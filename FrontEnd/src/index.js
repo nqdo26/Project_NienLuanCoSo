@@ -16,6 +16,7 @@ import Bag from './pages/Bag';
 import ProductManage from './pages/ProductManage';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
+import ConfirmDelete from './pages/ConfirmDelete';
 
 
 const router = createBrowserRouter([
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
             {
                 path: 'editproduct/:_id',
                 element: <EditProduct />,
+            },
+            {
+                path: 'productmanage/deleteshoes/:_id', 
+                element: <ConfirmDelete />,
             },
         ],
     },

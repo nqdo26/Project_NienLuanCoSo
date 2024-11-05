@@ -15,7 +15,7 @@ function ShoesLayout({ children }) {
             <Header />
             <div className={cx('body')}>
                 {children}
-                <div class name={cx('like')}>
+                <div className={cx('like')}>
                     <CardList title={title} />
                 </div>
             </div>
