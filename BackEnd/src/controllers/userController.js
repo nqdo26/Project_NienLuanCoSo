@@ -1,4 +1,4 @@
-const { createUserService, loginService, getUserService, createAdminService } = require("../services/userService");
+const { createUserService, loginService, getUserService, createAdminService, addFavouriteService } = require("../services/userService");
 
 const createAdmin = async (req, res) => {
     const { name, email, password } = req.body;
@@ -29,7 +29,47 @@ const getAccount = async (req, res) => {
     return res.status(200).json(req.user)
 }
 
+
+// Favourite
+
+const addFavourite = async (req, res) => {
+    const { title, tag, price } = req.body;
+    const { email } = req.params;  // Lấy email từ URL params  
+
+    try {
+        const result = await addFavouriteService(email, title, tag, price);  
+        
+        if (result.EC === 0) {
+            return res.status(200).json(result);  // Thành công
+        } else if (result.EC === 3) {
+            return res.status(200).json({ result });  
+        } else {
+            return res.status(400).json({ result });  
+        }
+    } catch (error) {
+        console.error('Error adding favourite:', error);
+        return res.status(500).json({ error: 'An error occurred while adding favourite' });
+    }
+};
+
+
+const getListFavourite = async (req, res) => {
+    const { email } = req.query;  
+    try {
+        const result = await getListFavouriteService(email);  
+        if (result.EC === 0) {
+            return res.status(200).json(result.data);  
+        } else {
+            return res.status(400).json({ error: result.EM });  
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'An error occurred while fetching favourites' });
+    }
+}
+
+
+
 module.exports = {
-    createUser, handleLogin, getUser, getAccount, createAdmin
+    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite
 
 }

@@ -1,6 +1,8 @@
 require("dotenv").config();
 
 const User = require("../models/user");
+const Favourite = require("../models/favourite");
+
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const saltRounds = 10;
@@ -108,6 +110,7 @@ const loginService = async (email, password) => {
                     EC: 0,
                     access_token,
                     user: {
+                        id: user._id,
                         email: user.email,
                         name: user.name,
                         role: user.role
@@ -140,6 +143,83 @@ const getUserService = async () => {
     }
 }
 
+// Favourite
+
+const addFavouriteService = async (email, title, tag, price) => {
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return {
+                EC: 1,  
+                EM: "User not found"
+            };
+        }
+
+        const existingFavourite = await Favourite.findOne({
+            userId:  user._id,
+            title: title,
+        });
+
+
+        if (existingFavourite) {
+            console.log('Existing favourite check:', existingFavourite);
+
+            return {
+                EC: 3,  
+                EM: "This favourite already exists"
+            };
+        }
+
+        let result = await Favourite.create({
+            title: title,
+            tag: tag,
+            price: price,
+            userId: user._id
+        });
+
+        return {
+            EC: 0, 
+            EM: "Favourite added successfully",
+            data: result
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,  
+            EM: "An error occurred while adding favourite"
+        };
+    }
+};
+
+const getListFavouriteService = async (email) => {
+    try {
+        // Tìm người dùng bằng email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return {
+                EC: 1,
+                EM: "User not found"
+            };
+        }
+
+        // Tìm danh sách yêu thích của người dùng
+        const favourites = await Favourite.find({ userId: user._id });
+        return {
+            EC: 0,
+            data: favourites
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred"
+        };
+    }
+};
+
+
 module.exports = {
-    createUserService, loginService, getUserService, createAdminService
+    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService
 }
