@@ -14,6 +14,7 @@ const AddProduct = () => {
     const [numberOfColors, setNumberOfColors] = useState(0);
     const [colorFields, setColorFields] = useState([]);
     const [sizes, setSizes] = useState([]);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
 
     const handleNumberOfColorsChange = (value) => {
         setNumberOfColors(value);
@@ -43,6 +44,7 @@ const AddProduct = () => {
 
     const navigate = useNavigate();
     const onFinish = async (values) => {
+        setLoadingUpdate(true);
         const { title, tag, price, numberOfColors, minSize, maxSize, description } = values;
 
         const colors = [];
@@ -54,6 +56,7 @@ const AddProduct = () => {
         const res = await createShoesApi(title, tag, price, numberOfColors, colors, minSize, maxSize, description);
 
         if (res.EC === 1) {
+            setLoadingUpdate(false);
             notification.error({
                 message: 'ERROR',
                 description: res.EM,
@@ -174,8 +177,8 @@ const AddProduct = () => {
 
                     <Form.Item>
                         <div className={cx('action-btn')}>
-                            <Button type="primary" htmlType="submit">
-                                Add Product
+                            <Button type="primary" htmlType="submit" loading={loadingUpdate}>
+                                {loadingUpdate ? "Adding Product" : "Add Product"}
                             </Button>
                             <Link to="/productmanage">
                                 <Button>Back</Button>

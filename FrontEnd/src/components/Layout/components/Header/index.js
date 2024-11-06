@@ -161,7 +161,7 @@ function Header() {
                             <Search />
 
                             <Tippy clasName={cx('number-btn')} delay={[500, 50]} content="Favorites" placement="bottom">
-                                <Link to="/favourite">
+                                <Link to={`/favourite/${auth.user.email}`}>
                                     <Badge count={favouritesCount} offset={[-6, 7]} className={cx('custom-badge')}>
                                         <button className={cx('action-btn')}>
                                             <FarvoriteIcon />

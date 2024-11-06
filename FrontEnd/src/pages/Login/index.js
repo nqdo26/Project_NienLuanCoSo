@@ -29,6 +29,7 @@ function Login() {
                 user: {
                     email:res?.user?.email ?? "",
                     name: res?.user?.name ?? "",
+                    _id: res?.user?._id ?? "",
                     role: res?.user?.role ?? "",
                 },
             });

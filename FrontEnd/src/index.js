@@ -45,7 +45,7 @@ const router = createBrowserRouter([
                 element: <Shoes />,
             },
             {
-                path: 'favourite',
+                path: '/favourite/:email',
                 element: <Favourite />,
             },
             {

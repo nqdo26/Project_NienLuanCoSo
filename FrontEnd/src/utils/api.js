@@ -71,12 +71,33 @@ const updateShoesApi = (_id, title, tag, price, numberOfColors, colors, minSize,
         description,
     };
     return axios.put(URL_API, data);
-}
+};
 
 const deleteShoesApi = (_id) => {
     const URL_API = '/v1/api/productmanage/' + _id;
     return axios.delete(URL_API);
-}
+};
 
-export { createUserApi, loginApi, getUserApi, createShoesApi, getListShoesApi, getShoesApi, getShoesApiForEdit, updateShoesApi, deleteShoesApi };
- 
+const addFavouriteApi = (email, title, tag, price) => {
+    const URL_API = '/v1/api/favourite/' + email;
+    const data = {
+        email,
+        title,
+        tag,
+        price,
+    };
+    return axios.post(URL_API, data);
+};
+
+export {
+    createUserApi,
+    loginApi,
+    getUserApi,
+    createShoesApi,
+    getListShoesApi,
+    getShoesApi,
+    getShoesApiForEdit,
+    updateShoesApi,
+    deleteShoesApi,
+    addFavouriteApi,
+};

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Shoes.module.scss';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Radio, Image, Typography, Rate, Collapse, notification } from 'antd';
+import { Button, Radio, Image, Typography, Rate, Collapse, notification, Modal } from 'antd';
 import { DeleteOutlined, EditOutlined, HeartOutlined } from '@ant-design/icons';
 import { Card, Space } from 'antd';
 import { Spin } from 'antd';
@@ -9,7 +9,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getShoesApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { AuthContext } from '~/components/Context/auth.context';
-import { deleteShoesApi } from '../../utils/api';
+import { deleteShoesApi, addFavouriteApi } from '../../utils/api';
 
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -24,11 +24,31 @@ function Shoes() {
     const { auth } = useContext(AuthContext);
     const [size, setSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
-    const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400')
+    const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400');
     const navigate = useNavigate();
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
+
+    const formatPrice = (price) => {
+        return price.toLocaleString();
+    };
+
+    const thumbnails = [
+        'https://via.placeholder.com/400x400',
+        'https://via.placeholder.com/400x400/0000FF',
+        'https://via.placeholder.com/400x400/FF0000',
+        'https://via.placeholder.com/400x400/00FF00',
+        'https://via.placeholder.com/400x400/0000FF',
+        'https://via.placeholder.com/400x400/00FF12',
+    ];
+
+    const colors = [
+        { name: 'Purple', colorCode: '#800080' },
+        { name: 'Blue', colorCode: '#1E90FF' },
+        { name: 'Green', colorCode: '#32CD32' },
+    ];
 
     useEffect(() => {
-       // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
@@ -51,64 +71,12 @@ function Shoes() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_id]);
 
-;
-
-    const thumbnails = [
-        'https://via.placeholder.com/400x400',
-        'https://via.placeholder.com/400x400/0000FF',
-        'https://via.placeholder.com/400x400/FF0000',
-        'https://via.placeholder.com/400x400/00FF00',
-        'https://via.placeholder.com/400x400/0000FF',
-        'https://via.placeholder.com/400x400/00FF12',
-    ];
-
-    const colors = [
-        { name: 'Purple', colorCode: '#800080' },
-        { name: 'Blue', colorCode: '#1E90FF' },
-        { name: 'Green', colorCode: '#32CD32' },
-    ];
-
     const handleChange = (e) => {
         setSize(e.target.value);
     };
 
     const handleColorSelect = (name) => {
         setSelectedColor(name);
-    };
-
-    const addToFavourites = () => {
-        const product = {
-            id: shoes._id,
-            title: shoes.title,
-            tag: shoes.tag,
-            description: shoes.description,
-            price: shoes.price,
-            imgSrc: mainImage,
-            size: size,
-            color: selectedColor,
-        };
-
-        const existingFavourites = JSON.parse(localStorage.getItem('favourites')) || [];
-
-        const isExisting = existingFavourites.some((item) => item.title === product.title);
-
-        if (isExisting) {
-            notification.warning({
-                message: 'Warning',
-                description: 'This product is already in your Favourites',
-                placement: 'topRight',
-            });
-            return;
-        }
-
-        const updatedFavourites = [...existingFavourites, product];
-        localStorage.setItem('favourites', JSON.stringify(updatedFavourites));
-
-        notification.success({
-            message: 'Success',
-            description: 'Added to Favourites',
-            placement: 'topRight',
-        });
     };
 
     const addToBag = () => {
@@ -160,25 +128,38 @@ function Shoes() {
         }
     };
 
+    const showDeleteConfirm = () => {
+        Modal.confirm({
+            title: `Are you sure you want to delete ${shoes.title}?`,
+            content: 'This action cannot be undone.',
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk: handleDeleteShoes,
+            onCancel() {
+                console.log('Cancel delete');
+            },
+        });
+    };
+
     const handleDeleteShoes = async () => {
         try {
-            const response = await deleteShoesApi(shoes._id); 
-            console.log ('>>>Delete product:', response.data);
-                if (response.EC === 0) {
-                    notification.success({
-                        message: 'Success',
-                        description: 'Product deleted successfully.',
-                        placement: 'topRight',
-                    });
-                    navigate(`/productmanage`); 
-                } else {
-                    notification.error({
-                        message: 'Error',
-                        description: response.data ? response.data.EM : 'An unexpected error occurred.',
-                        placement: 'topRight',
-                    });
-                }
-            
+            const response = await deleteShoesApi(shoes._id);
+            console.log('>>>Delete product:', response.data);
+            if (response.EC === 0) {
+                notification.success({
+                    message: 'Success',
+                    description: `Delete ${shoes.title} successfully.`,
+                    placement: 'topRight',
+                });
+                navigate(`/productmanage`);
+            } else {
+                notification.error({
+                    message: 'Error',
+                    description: response.data ? response.data.EM : 'An unexpected error occurred.',
+                    placement: 'topRight',
+                });
+            }
         } catch (error) {
             notification.error({
                 message: 'Error',
@@ -188,7 +169,55 @@ function Shoes() {
             console.error('Error deleting product:', error);
         }
     };
+
+    const handleAddFavourite = async () => {
+        setLoadingUpdate(true);
     
+        if (!auth?.user?.email || !shoes?.title || !shoes?.tag || !shoes?.price) {
+            notification.warning({
+                message: 'Warning',
+                description: 'Missing information to add to favourite list.',
+                placement: 'topRight',
+            });
+            setLoadingUpdate(false);
+            return;
+        }
+    
+        try {
+            const response = await addFavouriteApi(auth.user.email, shoes.title, shoes.tag, shoes.price);
+    
+            if (response.EC === 0) {
+                notification.success({
+                    message: 'Success',
+                    description: response.EM || 'Added to favourite list successfully.',
+                    placement: 'topRight',
+                });
+            } else {
+                notification.info({
+                    description: response.EM || 'This product is already in your favourite list.',
+                    placement: 'topRight',
+                });
+            }
+        } catch (error) {
+            if (error.response?.status === 409) {
+                notification.info({
+                    message: 'Warning',
+                    description: 'This product is already in your favourite list.',
+                    placement: 'topRight',
+                });
+            } else {
+                notification.error({
+                    message: 'Error',
+                    description: 'An error occurred while adding to favourite list.',
+                    placement: 'topRight',
+                });
+            }
+            console.error('Error in handleAddFavourite:', error);
+        }
+        setLoadingUpdate(false);
+    };
+    
+
     return (
         <div className={cx('wrapper')}>
             {appLoading ? (
@@ -200,7 +229,7 @@ function Shoes() {
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
                         }}
-                        >
+                    >
                         <Spin size="large" />
                     </div>
                 </div>
@@ -211,19 +240,19 @@ function Shoes() {
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <div>
                                     <Card style={{ width: 500, padding: 20, border: 0 }}>
-                                    {auth.user.role === 'ADMIN'
-                    ? [
-                          <div className={cx('icon-group')} key="icons">
-                              <Link to={`/editproduct/${shoes._id}`} className={cx('icon')}>
-                                  <EditOutlined />
-                              </Link>
-                              <div className={cx('divider')}></div>
-                              <button className={cx('icon')} onClick={handleDeleteShoes}>
-                                  <DeleteOutlined />
-                              </button>
-                          </div>,
-                      ]
-                    : null}
+                                        {auth.user.role === 'ADMIN'
+                                            ? [
+                                                  <div className={cx('icon-group')} key="icons">
+                                                      <Link to={`/editproduct/${shoes._id}`} className={cx('icon')}>
+                                                          <EditOutlined />
+                                                      </Link>
+                                                      <div className={cx('divider')}></div>
+                                                      <button className={cx('icon')} onClick={showDeleteConfirm}>
+                                                          <DeleteOutlined />
+                                                      </button>
+                                                  </div>,
+                                              ]
+                                            : null}
                                         <Space align="start" size={16}>
                                             <Space direction="vertical" size={8}>
                                                 {thumbnails.map((src, index) => (
@@ -254,7 +283,7 @@ function Shoes() {
                                         {shoes.tag}
                                     </p>
 
-                                    <Title level={4}>{shoes.price}</Title>
+                                    <Title level={4}>{formatPrice(shoes.price)}₫</Title>
 
                                     {/* Color */}
                                     <div className={cx('color-selection')} style={{ marginBottom: '20px' }}>
@@ -339,10 +368,11 @@ function Shoes() {
                                         </Button>
                                         <Button
                                             className={cx('btn')}
-                                            onClick={addToFavourites}
                                             icon={<HeartOutlined />}
+                                            onClick={handleAddFavourite}
+                                            loading={loadingUpdate}
                                         >
-                                            Favourite
+                                            {loadingUpdate ? 'Adding...' : 'Add to Favourite'}
                                         </Button>
                                     </div>
 
@@ -465,7 +495,7 @@ function Shoes() {
                             </div>
                         </div>
                     ) : (
-                        <div>hehe</div>
+                        <div>loadding error</div>
                     )}
                 </>
             )}

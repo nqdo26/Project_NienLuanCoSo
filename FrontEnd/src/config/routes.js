@@ -14,7 +14,7 @@ const routes = {
     sale: '/sale',
 
     shoes: '/productmanage/:_id', 
-    favourite: '/favourite',
+    favourite: '/favourite/:email',
     bag: '/bag',
 };
 
