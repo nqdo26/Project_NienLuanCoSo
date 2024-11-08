@@ -173,20 +173,11 @@ function Shoes() {
     const handleAddFavourite = async () => {
         setLoadingUpdate(true);
     
-        if (!auth?.user?.email || !shoes?.title || !shoes?.tag || !shoes?.price) {
-            notification.warning({
-                message: 'Warning',
-                description: 'Missing information to add to favourite list.',
-                placement: 'topRight',
-            });
-            setLoadingUpdate(false);
-            return;
-        }
-    
         try {
-            const response = await addFavouriteApi(auth.user.email, shoes.title, shoes.tag, shoes.price);
+            const response = await addFavouriteApi(auth.user.email, shoes.title, shoes.tag, shoes.price, shoes.numberOfColors, shoes._id);
     
             if (response.EC === 0) {
+                console.log('>>>Add to favourite:', response);
                 notification.success({
                     message: 'Success',
                     description: response.EM || 'Added to favourite list successfully.',

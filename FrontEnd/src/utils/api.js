@@ -27,6 +27,29 @@ const getUserApi = () => {
     return axios.get(URL_API);
 };
 
+const addFavouriteApi = (email, title, tag, price, numberOfColors, shoesId) => {
+    const URL_API = '/v1/api/favourite/' + email;
+    const data = {
+        email,
+        title,
+        tag,
+        price,
+        numberOfColors,
+        shoesId,
+    };
+    return axios.post(URL_API, data);
+};
+
+const getListFavourtiteApi = (email) => {
+    const URL_API = '/v1/api/favourite/' + email;
+    return axios.get(URL_API);
+};
+
+const deleteFavouriteApi = (_id) => {
+    const URL_API = '/v1/api/favourite/';
+    return axios.delete(URL_API, { data: { _id } });
+};
+
 //admin
 const createShoesApi = (title, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
     const URL_API = '/v1/api/addproduct';
@@ -78,17 +101,6 @@ const deleteShoesApi = (_id) => {
     return axios.delete(URL_API);
 };
 
-const addFavouriteApi = (email, title, tag, price) => {
-    const URL_API = '/v1/api/favourite/' + email;
-    const data = {
-        email,
-        title,
-        tag,
-        price,
-    };
-    return axios.post(URL_API, data);
-};
-
 export {
     createUserApi,
     loginApi,
@@ -100,4 +112,6 @@ export {
     updateShoesApi,
     deleteShoesApi,
     addFavouriteApi,
+    getListFavourtiteApi,
+    deleteFavouriteApi,
 };

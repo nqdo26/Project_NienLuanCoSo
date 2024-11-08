@@ -61,7 +61,6 @@ const EditProduct = () => {
         };
 
         fetchShoes();
-           // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [_id, form]);
 
     const handleNumberOfColorsChange = (value) => {
