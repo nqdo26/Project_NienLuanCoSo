@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const User = require("../models/user");
 const Favourite = require("../models/favourite");
+const Shoes = require("../models/shoes");
 
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
@@ -145,13 +146,21 @@ const getUserService = async () => {
 
 // Favourite
 
-const addFavouriteService = async (email, title, tag, price) => {
+const addFavouriteService = async (email, title, tag, price, numberOfColors, shoesId) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
             return {
                 EC: 1,  
                 EM: "User not found"
+            };
+        }
+
+        const shoes = await Shoes.findOne({ _id: shoesId });
+        if (!shoes ) {
+            return {
+                EC: 10,  
+                EM: "Product not found"
             };
         }
 
@@ -174,7 +183,9 @@ const addFavouriteService = async (email, title, tag, price) => {
             title: title,
             tag: tag,
             price: price,
-            userId: user._id
+            numberOfColors: numberOfColors,
+            userId: user._id,
+            shoesId: shoes._id
         });
 
         return {
@@ -219,7 +230,31 @@ const getListFavouriteService = async (email) => {
     }
 };
 
+const deleteFavouriteService = async (_id) => {
+    try {
+        const favourite = await Favourite.findByIdAndDelete(_id);
+        if (!favourite) {
+            return {
+                EC: 1,
+                EM: `Product not found`,
+                data: favourite
+            };
+        }
+        return {
+            EC: 0,
+            EM: "remove form product favourite success",
+            data: favourite
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+}
+
 
 module.exports = {
-    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService
+    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService, deleteFavouriteService
 }

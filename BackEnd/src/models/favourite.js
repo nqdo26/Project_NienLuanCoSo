@@ -4,7 +4,9 @@ const favouriteSchema = new mongoose.Schema({
     title: String,
     tag: String,
     price: Number, 
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' } 
+    numberOfColors: Number, 
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    shoesId: { type: mongoose.Schema.Types.ObjectId, ref: 'shoes' },
 });
 
 const Favourite = mongoose.model('favourite', favouriteSchema);

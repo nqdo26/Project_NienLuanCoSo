@@ -1,4 +1,4 @@
-const { createUserService, loginService, getUserService, createAdminService, addFavouriteService } = require("../services/userService");
+const { createUserService, loginService, getUserService, createAdminService, addFavouriteService, getListFavouriteService, deleteFavouriteService } = require("../services/userService");
 
 const createAdmin = async (req, res) => {
     const { name, email, password } = req.body;
@@ -33,11 +33,11 @@ const getAccount = async (req, res) => {
 // Favourite
 
 const addFavourite = async (req, res) => {
-    const { title, tag, price } = req.body;
+    const { title, tag, price, numberOfColors, shoesId } = req.body;
     const { email } = req.params;  // Lấy email từ URL params  
 
     try {
-        const result = await addFavouriteService(email, title, tag, price);  
+        const result = await addFavouriteService(email, title, tag, price, numberOfColors, shoesId);  
         
         if (result.EC === 0) {
             return res.status(200).json(result);  // Thành công
@@ -54,7 +54,7 @@ const addFavourite = async (req, res) => {
 
 
 const getListFavourite = async (req, res) => {
-    const { email } = req.query;  
+    const { email } = req.params;  
     try {
         const result = await getListFavouriteService(email);  
         if (result.EC === 0) {
@@ -67,9 +67,16 @@ const getListFavourite = async (req, res) => {
     }
 }
 
+const deleteFavourite = async (req, res) => {
+    const { _id } = req.body; 
+    const data = await deleteFavouriteService(_id); 
+    console.log('>>> Backend delete response:', data);
+    return res.status(200).json(data); 
+};
+
 
 
 module.exports = {
-    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite
+    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite, deleteFavourite
 
 }

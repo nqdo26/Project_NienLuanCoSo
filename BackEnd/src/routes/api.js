@@ -2,7 +2,9 @@ const express = require('express');
 const { createUser, handleLogin, getUser,
     getAccount,
     createAdmin,
-    addFavourite
+    addFavourite,
+    getListFavourite,
+    deleteFavourite
 } = require('../controllers/userController');
 const { createShoes, getListShoes, getShoesByIdForManage, getShoesByIdForEdit, updateShoes, deleteShoes } = require('../controllers/adminController');
 const auth = require('../middleware/auth');
@@ -31,5 +33,7 @@ routerAPI.get("/editproduct/:_id", delay, getShoesByIdForEdit)
 routerAPI.put("/editproduct/:_id", delay, updateShoes); 
 routerAPI.delete("/productmanage/:_id", delay, deleteShoes);
 routerAPI.post("/favourite/:email", delay, addFavourite);
+routerAPI.get("/favourite/:email", delay, getListFavourite);
+routerAPI.delete("/favourite", delay, deleteFavourite);
 
 module.exports = routerAPI; 
