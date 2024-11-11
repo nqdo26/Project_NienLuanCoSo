@@ -1,9 +1,9 @@
 const { createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService} = require('../services/adminService')
 
 const createShoes = async(req, res) =>  {
-    const { title, tag, price, numberOfColors, colors, minSize, maxSize, description } = req.body
+    const { title, type, tag, price, numberOfColors, colors, minSize, maxSize, description } = req.body
     
-    const data = await createShoesService( title, tag, price, numberOfColors, colors, minSize, maxSize, description);
+    const data = await createShoesService( title, type, tag, price, numberOfColors, colors, minSize, maxSize, description);
     return res.status(200).json(data)
 }
 

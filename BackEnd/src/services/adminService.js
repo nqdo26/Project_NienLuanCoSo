@@ -1,6 +1,6 @@
 const Shoes = require("../models/shoes");
 
-const createShoesService = async (title, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+const createShoesService = async (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
     try {
         const shoes = await Shoes.findOne({title});
         if(shoes) {
@@ -13,6 +13,7 @@ const createShoesService = async (title, tag, price, numberOfColors, colors, min
 
         let result = await Shoes.create({
             title: title,
+            type: type,
             tag: tag,
             price: price,
             numberOfColors: numberOfColors,
