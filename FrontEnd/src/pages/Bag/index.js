@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from './Bag.module.scss';
 import CardList from '~/components/CardList';
 import ShoppingCart from '../../components/ShoppingCart';
-import Favourites from '../../components/Favourites';
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +14,7 @@ function Bag() {
                 <ShoppingCart />
                 <div className={cx('divider1')}></div>
             </div>
-            <Favourites />
+    
             <div className={cx('divider')}></div>
             <CardList title={titleCardList} />
             <div className={cx('divider')}></div>

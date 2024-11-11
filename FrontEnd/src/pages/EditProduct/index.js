@@ -1,10 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Form, Input, Button, InputNumber, Spin, message } from 'antd';
+import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getShoesApiForEdit, updateShoesApi } from '../../utils/api'; 
+import { getShoesApiForEdit, updateShoesApi } from '../../utils/api';
 
 const cx = classNames.bind(styles);
 
@@ -15,11 +15,11 @@ const EditProduct = () => {
     const [colorFields, setColorFields] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [loadingUpdate, setLoadingUpdate] = useState(false);
-    const [initialColors, setInitialColors] = useState([]); 
+    const [initialColors, setInitialColors] = useState([]);
     const navigate = useNavigate();
+    const { Option } = Select;
 
     useEffect(() => {
-         // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
@@ -28,6 +28,7 @@ const EditProduct = () => {
                     setShoes(response.data);
                     form.setFieldsValue({
                         title: response.data.title,
+                        type: response.data.type, // Đặt giá trị type vào form
                         tag: response.data.tag,
                         price: response.data.price,
                         numberOfColors: response.data.colors.length,
@@ -35,7 +36,7 @@ const EditProduct = () => {
                         minSize: response.data.minSize,
                         maxSize: response.data.maxSize,
                     });
-                    setInitialColors(response.data.colors); 
+                    setInitialColors(response.data.colors);
                     setColorFields(
                         response.data.colors.map((color, index) => {
                             return (
@@ -49,9 +50,8 @@ const EditProduct = () => {
                                     <Input placeholder={`Enter color ${index + 1}`} />
                                 </Form.Item>
                             );
-                        })
+                        }),
                     );
-                    
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -91,28 +91,29 @@ const EditProduct = () => {
     };
 
     const onFinish = async (values) => {
-        setLoadingUpdate(true); 
+        setLoadingUpdate(true);
         const colors = [];
         for (let i = 0; i < values.numberOfColors; i++) {
-            colors.push(values[`color-${i + 1}`] || initialColors[i]); 
+            colors.push(values[`color-${i + 1}`] || initialColors[i]);
         }
 
         try {
             const response = await updateShoesApi(
                 _id,
                 values.title,
+                values.type, // Lấy giá trị type từ form
                 values.tag,
                 values.price,
                 values.numberOfColors,
                 colors,
                 values.minSize,
                 values.maxSize,
-                values.description
+                values.description,
             );
 
             if (response.EC === 0) {
                 message.success('Update product success');
-                navigate(`/productmanage/${_id}`); 
+                navigate(`/productmanage/${_id}`);
             } else {
                 message.error(response.data.EM);
                 message.error('Error update product');
@@ -126,7 +127,7 @@ const EditProduct = () => {
     };
 
     const handleBack = () => {
-        navigate(`/productmanage/${_id}`); 
+        navigate(`/productmanage/${_id}`);
     };
 
     return (
@@ -154,6 +155,21 @@ const EditProduct = () => {
                             rules={[{ required: true, message: 'Please input the title!' }]}
                         >
                             <Input placeholder="Enter shoe title" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Type"
+                            name="type"
+                            rules={[{ required: true, message: 'Please select the type!' }]}
+                        >
+                            <Select placeholder="--Select type--">
+                                <Option value="jordan">Jordan</Option>
+                                <Option value="nike">Nike</Option>
+                                <Option value="running">Running</Option>
+                                <Option value="tranning&gym">Tranning & Gym</Option>
+                                <Option value="athletics">Athletics</Option>
+                                <Option value="walking">Walking</Option>
+                            </Select>
                         </Form.Item>
 
                         <Form.Item
@@ -239,13 +255,11 @@ const EditProduct = () => {
 
                         <Form.Item>
                             <div className={cx('action-btn')}>
-                            <Button type="primary" htmlType="submit" loading={loadingUpdate}>
-                                {loadingUpdate ? "Submitting..." : "Submit"}
-                            </Button>
+                                <Button type="primary" htmlType="submit" loading={loadingUpdate}>
+                                    {loadingUpdate ? 'Submitting...' : 'Submit'}
+                                </Button>
 
-                    
-                                    <Button onClick={handleBack}>Back</Button>
-                               
+                                <Button onClick={handleBack}>Back</Button>
                             </div>
                         </Form.Item>
                     </Form>

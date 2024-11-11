@@ -41,12 +41,6 @@ function Shoes() {
         'https://via.placeholder.com/400x400/00FF12',
     ];
 
-    const colors = [
-        { name: 'Purple', colorCode: '#800080' },
-        { name: 'Blue', colorCode: '#1E90FF' },
-        { name: 'Green', colorCode: '#32CD32' },
-    ];
-
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
@@ -279,11 +273,11 @@ function Shoes() {
                                     {/* Color */}
                                     <div className={cx('color-selection')} style={{ marginBottom: '20px' }}>
                                         <div className={cx('color-gird')}>
-                                            {colors.map(({ name, colorCode, border }) => (
+                                            {shoes.colors.map((colorCode, index) => (
                                                 <div
-                                                    className={cx('color-item', { selected: selectedColor === name })}
-                                                    key={name}
-                                                    onClick={() => handleColorSelect(name)}
+                                                    className={cx('color-item', { selected: selectedColor === colorCode })}
+                                                    key={index}
+                                                    onClick={() => handleColorSelect(colorCode)}
                                                 >
                                                     <div
                                                         className={cx('color-circle')}

@@ -51,10 +51,11 @@ const deleteFavouriteApi = (_id) => {
 };
 
 //admin
-const createShoesApi = (title, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
     const URL_API = '/v1/api/addproduct';
     const data = {
         title,
+        type,
         tag,
         price,
         numberOfColors,
@@ -81,10 +82,11 @@ const getShoesApiForEdit = (_id) => {
     return axios.get(URL_API);
 };
 
-const updateShoesApi = (_id, title, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+const updateShoesApi = (_id, title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
     const URL_API = '/v1/api/editproduct/' + _id;
     const data = {
         title,
+        type,
         tag,
         price,
         numberOfColors,

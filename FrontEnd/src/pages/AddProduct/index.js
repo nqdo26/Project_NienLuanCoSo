@@ -1,34 +1,74 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, InputNumber, notification } from 'antd';
+import { Form, Input, Button, InputNumber, notification, Select} from 'antd';
 import classNames from 'classnames/bind';
 import styles from './AddProduct.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { createShoesApi } from '../../utils/api';
+import { ColorPicker } from 'antd';
 const cx = classNames.bind(styles);
 
 const AddProduct = () => {
-
-    // eslint-disable-next-line no-unused-vars
     const [form] = Form.useForm();
-    // eslint-disable-next-line no-unused-vars
+    
+    const { Option } = Select;
+
+    const navigate = useNavigate();
+
+    //color
     const [numberOfColors, setNumberOfColors] = useState(0);
+
     const [colorFields, setColorFields] = useState([]);
+    const [colorValues, setColorValues] = useState({});
+
+    //size
     const [sizes, setSizes] = useState([]);
+
+    //loadding-effect
     const [loadingUpdate, setLoadingUpdate] = useState(false);
 
     const handleNumberOfColorsChange = (value) => {
         setNumberOfColors(value);
+
         const colors = Array.from({ length: value }, (_, index) => (
-            <Form.Item
-                key={`color-${index}`}
-                label={`Color ${index + 1}`}
-                name={`color-${index + 1}`}
-                rules={[{ required: true, message: 'Please input the color!' }]}
-            >
-                <Input placeholder={`Enter color ${index + 1}`} />
+            <Form.Item key={`color-${index}`} label={`Color ${index + 1}`} required>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <ColorPicker
+                        value={colorValues[`color-${index}`]}
+                        onChange={(color) => handleColorChange(`color-${index}`, color.hex)}
+                    />
+                    <Form.Item name={`color-${index}`} noStyle>
+                        <Input
+                            value={colorValues[`color-${index}`]}
+                            onChange={(e) => handleHexInputChange(`color-${index}`, e.target.value)}
+                            placeholder="Enter HEX color"
+                            maxLength={7}
+                        />
+                    </Form.Item>
+                </div>
             </Form.Item>
         ));
         setColorFields(colors);
+    };
+
+    const handleColorChange = (colorKey, hexValue) => {
+        setColorValues((prevValues) => {
+            const updatedValues = { ...prevValues, [colorKey]: hexValue };
+            form.setFieldsValue(updatedValues);
+            return updatedValues;
+        });
+    };
+
+    const handleHexInputChange = (colorKey, hexValue) => {
+        if (!hexValue.startsWith('#')) {
+            hexValue = `#${hexValue}`;
+        }
+        hexValue = hexValue.toUpperCase();
+
+        setColorValues((prevValues) => {
+            const updatedValues = { ...prevValues, [colorKey]: hexValue };
+            form.setFieldsValue(updatedValues);
+            return updatedValues;
+        });
     };
 
     const handleSizeChange = (minSize, maxSize) => {
@@ -42,18 +82,24 @@ const AddProduct = () => {
         setSizes(sizeArray);
     };
 
-    const navigate = useNavigate();
     const onFinish = async (values) => {
         setLoadingUpdate(true);
-        const { title, tag, price, numberOfColors, minSize, maxSize, description } = values;
+        const { title, type, tag, price, numberOfColors, minSize, maxSize, description } = values;
 
-        const colors = [];
-        for (let i = 1; i <= numberOfColors; i++) {
-            const color = values[`color-${i}`];
-            colors.push(color);
-        }
+        // Lấy mã màu từ colorValues để gửi đến BackEnd
+        const colors = Object.values(colorValues).slice(0, numberOfColors);
 
-        const res = await createShoesApi(title, tag, price, numberOfColors, colors, minSize, maxSize, description);
+        const res = await createShoesApi(
+            title,
+            type,
+            tag,
+            price,
+            numberOfColors,
+            colors,
+            minSize,
+            maxSize,
+            description,
+        );
 
         if (res.EC === 1) {
             setLoadingUpdate(false);
@@ -90,6 +136,21 @@ const AddProduct = () => {
                         <Input placeholder="Enter shoe title" />
                     </Form.Item>
 
+                    <Form.Item
+                        label="Type"
+                        name="type"
+                        rules={[{ required: true, message: 'Please select the type!' }]}
+                    >
+                        <Select defaultValue="--Select type--">
+                            <Option value="jordan">Jordan</Option>
+                            <Option value="nike">Nike</Option>
+                            <Option value="running">Running</Option>
+                            <Option value="tranning&gym">Tranning & Gym</Option>
+                            <Option value="athletics">Athletics</Option>
+                            <Option value="walking">Walking</Option>
+                        </Select>
+                    </Form.Item>
+
                     <Form.Item label="Tag" name="tag" rules={[{ required: true, message: 'Please input the tag!' }]}>
                         <Input placeholder="Enter product tag" />
                     </Form.Item>
@@ -118,7 +179,6 @@ const AddProduct = () => {
                             onChange={handleNumberOfColorsChange}
                             style={{ width: '100%' }}
                             placeholder="Enter number of colors"
-                            parser={(value) => value.replace(/[^0-3]/g, '')}
                         />
                     </Form.Item>
 
@@ -178,7 +238,7 @@ const AddProduct = () => {
                     <Form.Item>
                         <div className={cx('action-btn')}>
                             <Button type="primary" htmlType="submit" loading={loadingUpdate}>
-                                {loadingUpdate ? "Adding Product" : "Add Product"}
+                                {loadingUpdate ? 'Adding Product' : 'Add Product'}
                             </Button>
                             <Link to="/productmanage">
                                 <Button>Back</Button>

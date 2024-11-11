@@ -12,6 +12,7 @@ const cx = classNames.bind(styles);
 function Products() {
     const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
     const [product, setProduct] = useState([]);
+    
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps

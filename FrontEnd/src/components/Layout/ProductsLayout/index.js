@@ -35,13 +35,13 @@ function ProductLayout({ children, key }) {
                             Shoes (904)
                         </Title>
                         <Menu mode="inline" defaultSelectedKeys={['1']} style={{ borderLeft: '1px solid #d9d9d9' }}>
-                            <Menu.Item key="1">All Shoes</Menu.Item>
-                            <Menu.Item key="2">Jordan</Menu.Item>
-                            <Menu.Item key="3">Nike</Menu.Item>
-                            <Menu.Item key="4">Running</Menu.Item>
-                            <Menu.Item key="5">Training & Gym</Menu.Item>
-                            <Menu.Item key="6">Athletics</Menu.Item>
-                            <Menu.Item key="7">Walking</Menu.Item>
+                            <Menu.Item value="all" key="1">All Shoes</Menu.Item>
+                            <Menu.Item value="jordan" key="2">Jordan</Menu.Item>
+                            <Menu.Item value="nike" key="3">Nike</Menu.Item>
+                            <Menu.Item value="running" key="4">Running</Menu.Item>
+                            <Menu.Item value="training&gym" key="5">Training & Gym</Menu.Item>
+                            <Menu.Item value="athletics" key="6">Athletics</Menu.Item>
+                            <Menu.Item value="walking" key="7">Walking</Menu.Item>
                         </Menu>
 
                         <Collapse bordered={false} defaultActiveKey={['1']} style={{ marginTop: '20px' }}>
