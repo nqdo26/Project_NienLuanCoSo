@@ -1,3 +1,5 @@
+
+
 const routes = {
     home: '/',
 
@@ -16,6 +18,14 @@ const routes = {
     shoes: '/productmanage/:_id', 
     favourite: '/favourite/:email',
     bag: '/bag',
+
+    nike: 'products/nike',
+    jordan: 'products/jordan',
+    athletics: 'products/athletics',
+    trainingandgym: 'products/trainingandgym',
+    running: 'products/running',
+    walking: 'products/walking',
+
 };
 
 export default routes;

@@ -4,6 +4,7 @@ import Header from '~/components/Layout/components/Header';
 import Footer from '~/components/Layout/components/Footer';
 import classNames from 'classnames/bind';
 import styles from './ProductsLayout.module.scss';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function ProductLayout({ children, key }) {
@@ -32,16 +33,30 @@ function ProductLayout({ children, key }) {
                 <Layout style={{ minHeight: '100vh' }}>
                     <Sider width={300} style={{ background: '#fff', padding: '20px' }}>
                         <Title level={4} style={{ marginBottom: '20px' }}>
-                            Shoes (904)
+                            Filter
                         </Title>
                         <Menu mode="inline" defaultSelectedKeys={['1']} style={{ borderLeft: '1px solid #d9d9d9' }}>
-                            <Menu.Item value="all" key="1">All Shoes</Menu.Item>
-                            <Menu.Item value="jordan" key="2">Jordan</Menu.Item>
-                            <Menu.Item value="nike" key="3">Nike</Menu.Item>
-                            <Menu.Item value="running" key="4">Running</Menu.Item>
-                            <Menu.Item value="training&gym" key="5">Training & Gym</Menu.Item>
-                            <Menu.Item value="athletics" key="6">Athletics</Menu.Item>
-                            <Menu.Item value="walking" key="7">Walking</Menu.Item>
+                            <Menu.Item value="all" key="1">
+                                <Link to="/products">All Shoes</Link>
+                            </Menu.Item>
+                            <Menu.Item value="jordan" key="2">
+                                <Link to="/products/jordan">Jordan</Link>
+                            </Menu.Item>
+                            <Menu.Item value="nike" key="3">
+                                <Link to="/products/nike">Nike</Link>
+                            </Menu.Item>
+                            <Menu.Item value="running" key="4">
+                                <Link to="/products/running">Running</Link>
+                            </Menu.Item>
+                            <Menu.Item value="trainingandgym" key="5">
+                                <Link to="/products/trainingandgym">Training&Gym</Link>
+                            </Menu.Item>
+                            <Menu.Item value="athletics" key="6">
+                                <Link to="/products/athletics">Athletics</Link>
+                            </Menu.Item>
+                            <Menu.Item value="walking" key="7">
+                                <Link to="/products/walking">Walking</Link>
+                            </Menu.Item>
                         </Menu>
 
                         <Collapse bordered={false} defaultActiveKey={['1']} style={{ marginTop: '20px' }}>

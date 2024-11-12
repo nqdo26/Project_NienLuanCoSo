@@ -254,7 +254,31 @@ const deleteFavouriteService = async (_id) => {
     }
 }
 
+const searchShoesByTitleService = async (title) => {
+    try {
+        const shoes = await Shoes.findOne({ title });
+        if (!shoes) {
+            return {
+                EC: 1,
+                EM: `Product ${title} not found`,
+            };
+        }
+        return {
+            EC: 0,
+            EM: "Search product success",
+            data: shoes,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+};
+
+
 
 module.exports = {
-    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService, deleteFavouriteService
+    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService, deleteFavouriteService, searchShoesByTitleService,
 }

@@ -1,4 +1,4 @@
-const { createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService} = require('../services/adminService')
+const { createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService, getShoesByTypeService} = require('../services/adminService')
 
 const createShoes = async(req, res) =>  {
     const { title, type, tag, price, numberOfColors, colors, minSize, maxSize, description } = req.body
@@ -40,8 +40,14 @@ const deleteShoes = async (req, res) => {
     return res.status(200).json(data); 
 };
 
+const getShoesByType = async (req, res) => {
+    const { type } = req.params;
+    const data = await getShoesByTypeService(type);
+    return res.status(200).json(data);
+};
+
 
 
 module.exports = {
-    createShoes, getListShoes, getShoesByIdForManage, getShoesByIdForEdit, updateShoes, deleteShoes
+    createShoes, getListShoes, getShoesByIdForManage, getShoesByIdForEdit, updateShoes, deleteShoes, getShoesByType
 }

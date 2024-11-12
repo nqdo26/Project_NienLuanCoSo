@@ -17,6 +17,12 @@ import ProductManage from './pages/ProductManage';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
 import ConfirmDelete from './pages/ConfirmDelete';
+import Nike from './pages/Nike';
+import Jordan from './pages/Jordan';
+import Running from './pages/Running';
+import TrainingAndGym from './pages/TrainingAndGym';
+import Athletics from './pages/Athletics';
+import Walking from './pages/Walking';
 
 
 const router = createBrowserRouter([
@@ -39,6 +45,30 @@ const router = createBrowserRouter([
             {
                 path: 'products',
                 element: <Products />,
+            },
+            {
+                path: 'products/nike',
+                element: <Nike />,
+            },
+            {
+                path: 'products/jordan',
+                element: <Jordan />,
+            },
+            {
+                path: 'products/running',
+                element: <Running />,
+            },
+            {
+                path: 'products/trainingandgym',
+                element: <TrainingAndGym />,
+            },
+            {
+                path: 'products/athletics',
+                element: <Athletics />,
+            },
+            {
+                path: 'products/walking',
+                element: <Walking />,
             },
             {
                 path: '/productmanage/:_id',

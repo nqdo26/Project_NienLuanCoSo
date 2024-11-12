@@ -24,6 +24,12 @@ import Shoes from '~/pages/Shoes';
 import Favourite from '~/pages/Favourite';
 import Bag from '~/pages/Bag';
 import ConfirmDelete from '~/pages/ConfirmDelete';
+import Nike from '~/pages/Nike';
+import Jordan from '~/pages/Jordan';
+import Athletics from '~/pages/Athletics';
+import Running from '~/pages/Running';
+import TrainingAndGym from '~/pages/TrainingAndGym';
+import Walking from '~/pages/Walking';
 
 const publicRoutes = [
     { path: routesConfig.register, component: Register, layout: LoginLayout },
@@ -32,6 +38,12 @@ const publicRoutes = [
     { path: routesConfig.user, component: User },
     { path: routesConfig.newfeatured, component: NewFeatured },
     { path: routesConfig.products, component: Products, layout: ProductsLayout },
+    { path: routesConfig.nike, component: Nike, layout: ProductsLayout },
+    { path: routesConfig.jordan, component: Jordan, layout: ProductsLayout },
+    { path: routesConfig.athletics, component: Athletics, layout: ProductsLayout },
+    { path: routesConfig.running, component: Running, layout: ProductsLayout },
+    { path: routesConfig.trainingandgym, component: TrainingAndGym, layout: ProductsLayout },
+    { path: routesConfig.walking, component: Walking, layout: ProductsLayout },
     { path: routesConfig.productmanage, component: ProductManage, layout: ProductsLayout },
     { path: routesConfig.shoes, component: Shoes, layout: ShoesLayout },
     { path: routesConfig.sale, component: Sale },

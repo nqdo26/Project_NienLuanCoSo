@@ -103,6 +103,16 @@ const deleteShoesApi = (_id) => {
     return axios.delete(URL_API);
 };
 
+const getShoesByTypeApi = (type) => {
+    const URL_API = '/v1/api/products/' + type;
+    return axios.get(URL_API);
+};
+
+const searchShoesApi = (title) => {
+    const URL_API = `/v1/api/products/search?title=${title}`;
+    return axios.get(URL_API);
+};
+
 export {
     createUserApi,
     loginApi,
@@ -116,4 +126,6 @@ export {
     addFavouriteApi,
     getListFavourtiteApi,
     deleteFavouriteApi,
+    getShoesByTypeApi,
+    searchShoesApi,
 };

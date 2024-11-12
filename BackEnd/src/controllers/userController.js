@@ -1,4 +1,4 @@
-const { createUserService, loginService, getUserService, createAdminService, addFavouriteService, getListFavouriteService, deleteFavouriteService } = require("../services/userService");
+const { createUserService, loginService, getUserService, createAdminService, addFavouriteService, getListFavouriteService, deleteFavouriteService, searchShoesByTitleService } = require("../services/userService");
 
 const createAdmin = async (req, res) => {
     const { name, email, password } = req.body;
@@ -74,9 +74,14 @@ const deleteFavourite = async (req, res) => {
     return res.status(200).json(data); 
 };
 
+const searchShoesByTitle = async (req, res) => {
+    const { title } = req.body;
+    const data = await searchShoesByTitleService(title);
+    return res.status(200).json(data);
+};
 
 
 module.exports = {
-    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite, deleteFavourite
+    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite, deleteFavourite, searchShoesByTitle
 
 }

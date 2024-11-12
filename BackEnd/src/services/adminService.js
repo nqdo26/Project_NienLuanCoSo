@@ -46,6 +46,23 @@ const getListShoesService = async () => {
     }
 }
 
+const getShoesByTypeService = async (type) => {
+    try {
+        let result = await Shoes.find({ type: type });
+        return {
+            EC: 0,
+            EM: `Get ${type} shoes success`,
+            data: result,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+};
+
 const getShoesByIdService = async (_id) => {
     try {
         const shoes = await Shoes.findOne({ _id});
@@ -115,5 +132,5 @@ const deleteShoesService = async (_id) => {
 }
 
 module.exports = {
-    createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService
+    createShoesService, getListShoesService, getShoesByIdService, updateShoesService, deleteShoesService, getShoesByTypeService
 }
