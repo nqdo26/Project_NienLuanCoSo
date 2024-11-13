@@ -109,8 +109,12 @@ const getShoesByTypeApi = (type) => {
 };
 
 const searchShoesApi = (title) => {
-    const URL_API = `/v1/api/products/search?title=${title}`;
-    return axios.get(URL_API);
+    const URL_API = `/v1/api/search`;
+    return axios.get(URL_API, {
+        params: {
+            title,
+        },
+    });
 };
 
 export {

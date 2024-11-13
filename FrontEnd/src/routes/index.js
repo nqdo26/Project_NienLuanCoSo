@@ -30,6 +30,7 @@ import Athletics from '~/pages/Athletics';
 import Running from '~/pages/Running';
 import TrainingAndGym from '~/pages/TrainingAndGym';
 import Walking from '~/pages/Walking';
+import Search from '~/pages/Search';
 
 const publicRoutes = [
     { path: routesConfig.register, component: Register, layout: LoginLayout },
@@ -52,6 +53,8 @@ const publicRoutes = [
     { path: routesConfig.addproduct, component: AddProduct },
     { path : routesConfig.editproduct, component: EditProduct },
     { path: routesConfig.confirmdelete, component: ConfirmDelete },
+    { path: routesConfig.search, component: Search, layout: ProductsLayout },
+
 
 ];
 

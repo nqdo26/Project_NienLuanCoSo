@@ -23,6 +23,7 @@ import Running from './pages/Running';
 import TrainingAndGym from './pages/TrainingAndGym';
 import Athletics from './pages/Athletics';
 import Walking from './pages/Walking';
+import Search from './pages/Search';
 
 
 const router = createBrowserRouter([
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
             {
                 path: 'productmanage/deleteshoes/:_id', 
                 element: <ConfirmDelete />,
+            },
+            {
+                path: 'search', 
+                element: <Search />,
             },
         ],
     },

@@ -10,6 +10,7 @@ const routes = {
     productmanage: '/productmanage',
     addproduct: '/addproduct',
     editproduct: '/editproduct/:_id',
+    search: '/search',
     
     newfeatured: '/newfeatured',
     products: '/products',

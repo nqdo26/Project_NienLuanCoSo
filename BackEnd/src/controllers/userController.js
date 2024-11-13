@@ -75,7 +75,8 @@ const deleteFavourite = async (req, res) => {
 };
 
 const searchShoesByTitle = async (req, res) => {
-    const { title } = req.body;
+    const { title } = req.query; 
+    console.log("Received title:", title); // Kiểm tra title
     const data = await searchShoesByTitleService(title);
     return res.status(200).json(data);
 };

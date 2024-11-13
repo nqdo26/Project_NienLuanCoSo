@@ -256,8 +256,8 @@ const deleteFavouriteService = async (_id) => {
 
 const searchShoesByTitleService = async (title) => {
     try {
-        const shoes = await Shoes.findOne({ title });
-        if (!shoes) {
+        const shoes = await Shoes.find({ title: { $regex: title, $options: 'i' } });
+        if (!shoes || shoes.length === 0) {
             return {
                 EC: 1,
                 EM: `Product ${title} not found`,
@@ -276,7 +276,6 @@ const searchShoesByTitleService = async (title) => {
         };
     }
 };
-
 
 
 module.exports = {
