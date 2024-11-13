@@ -1,4 +1,4 @@
-const { createUserService, loginService, getUserService, createAdminService, addFavouriteService, getListFavouriteService, deleteFavouriteService, searchShoesByTitleService } = require("../services/userService");
+const { createUserService, loginService, getUserService, createAdminService, addFavouriteService, getListFavouriteService, deleteFavouriteService, searchShoesByTitleService, addBagService, getListBagService, deleteBagService } = require("../services/userService");
 
 const createAdmin = async (req, res) => {
     const { name, email, password } = req.body;
@@ -34,13 +34,13 @@ const getAccount = async (req, res) => {
 
 const addFavourite = async (req, res) => {
     const { title, tag, price, numberOfColors, shoesId } = req.body;
-    const { email } = req.params;  // Lấy email từ URL params  
+    const { email } = req.params;   
 
     try {
         const result = await addFavouriteService(email, title, tag, price, numberOfColors, shoesId);  
         
         if (result.EC === 0) {
-            return res.status(200).json(result);  // Thành công
+            return res.status(200).json(result);  
         } else if (result.EC === 3) {
             return res.status(200).json({ result });  
         } else {
@@ -76,13 +76,64 @@ const deleteFavourite = async (req, res) => {
 
 const searchShoesByTitle = async (req, res) => {
     const { title } = req.query; 
-    console.log("Received title:", title); // Kiểm tra title
+    console.log("Received title:", title); 
     const data = await searchShoesByTitleService(title);
     return res.status(200).json(data);
 };
 
+const addBag = async (req, res) => {
+    const { title, tag, size, price, number, color, shoesId } = req.body;
+    const { email } = req.params;   
+
+    try {
+        const result = await addBagService(email, title, tag, size, price, number, color, shoesId);  
+        
+        if (result.EC === 0 || result.EC === 3) {
+            return res.status(200).json(result);  
+        } else {
+            return res.status(400).json(result);  
+        }
+    } catch (error) {
+        console.error('Error adding bag:', error);
+        return res.status(500).json({ error: 'An error occurred while adding bag' });
+    }
+}
+
+const getListBag = async (req, res) => {
+    const { email } = req.params;  
+    try {
+        const result = await getListBagService(email);  
+        if (result.EC === 0) {
+            return res.status(200).json(result.data);  
+        } else {
+            return res.status(400).json({ error: result.EM });  
+        }
+    } catch (error) {
+        return res.status(500).json({ error: 'An error occurred while fetching bag' });
+    }
+}
+
+const deleteBag = async (req, res) => {
+    const { _id } = req.body; 
+    const data = await deleteBagService(_id); 
+    console.log('>>> Backend delete response:', data);
+    return res.status(200).json(data); 
+};
+
+
+
 
 module.exports = {
-    createUser, handleLogin, getUser, getAccount, createAdmin, getListFavourite, addFavourite, deleteFavourite, searchShoesByTitle
-
+    createUser, 
+    handleLogin,
+    getUser, 
+    getAccount, 
+    createAdmin, 
+    getListFavourite, 
+    addFavourite, 
+    deleteFavourite, 
+    searchShoesByTitle,
+    addBag,
+    getListBag,
+    deleteBag,
 }

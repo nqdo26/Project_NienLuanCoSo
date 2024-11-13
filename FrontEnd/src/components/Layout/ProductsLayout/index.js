@@ -59,7 +59,7 @@ function ProductLayout({ children, key }) {
                             </Menu.Item>
                         </Menu>
 
-                        <Collapse bordered={false} defaultActiveKey={['1']} style={{ marginTop: '20px' }}>
+                        <Collapse bordered={false} defaultActiveKey={['0']} style={{ marginTop: '20px' }}>
                             <Panel header="Gender (2)" key="1">
                                 <Checkbox>Men</Checkbox>
                                 <Checkbox>Women</Checkbox>

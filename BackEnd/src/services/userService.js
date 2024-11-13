@@ -3,6 +3,7 @@ require("dotenv").config();
 const User = require("../models/user");
 const Favourite = require("../models/favourite");
 const Shoes = require("../models/shoes");
+const Bag = require('../models/bag');
 
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
@@ -277,7 +278,131 @@ const searchShoesByTitleService = async (title) => {
     }
 };
 
+//Bag
+
+const addBagService = async (email, title, tag, size, price, number, color, shoesId) => {
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return {
+                EC: 1,  
+                EM: "User not found"
+            };
+        }
+
+        const shoes = await Shoes.findOne({ _id: shoesId });
+        if (!shoes) {
+            return {
+                EC: 10,  
+                EM: "Product not found"
+            };
+        }
+
+        const existingBag = await Bag.findOne({
+            userId: user._id,
+            title: title,
+            color: color,
+            size: size,
+        });
+
+        if (existingBag) {
+            existingBag.number += 1;
+            await existingBag.save(); 
+
+            return {
+                EC: 3,  
+                EM: "Product already exists, increased the number of products",
+                data: existingBag
+            };
+        }
+
+        let result = await Bag.create({
+            title: title,
+            tag: tag,
+            size: size,
+            price: price,
+            number: number || 1, 
+            color: color,
+            userId: user._id,
+            shoesId: shoes._id
+        });
+
+        return {
+            EC: 0, 
+            EM: "Bag added successfully",
+            data: result
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,  
+            EM: "An error occurred while adding bag"
+        };
+    }
+};
+
+const deleteBagService = async (_id) => {
+    try {
+        const bag = await Bag.findByIdAndDelete(_id);
+        if (!bag) {
+            return {
+                EC: 1,
+                EM: `Product not found`,
+                data: bag
+            };
+        }
+        return {
+            EC: 0,
+            EM: "remove form product bag success",
+            data: bag
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred",
+        };
+    }
+}
+
+const getListBagService = async (email) => {
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return {
+                EC: 1,
+                EM: "User not found"
+            };
+        }
+
+        const bag = await Bag.find({ userId: user._id });
+        return {
+            EC: 0,
+            data: bag
+        };
+
+    } catch (error) {
+        console.log(error);
+        return {
+            EC: 2,
+            EM: "An error occurred"
+        };
+    }
+};
+
 
 module.exports = {
-    createUserService, loginService, getUserService, createAdminService,addFavouriteService, getListFavouriteService, deleteFavouriteService, searchShoesByTitleService,
+    createUserService, 
+    loginService, 
+    getUserService, 
+    createAdminService,
+    addFavouriteService, 
+    getListFavouriteService, 
+    deleteFavouriteService, 
+    searchShoesByTitleService,  
+    addBagService,
+    deleteBagService,
+    getListBagService,
+    deleteBagService
 }

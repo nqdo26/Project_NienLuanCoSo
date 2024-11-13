@@ -145,7 +145,7 @@ const AddProduct = () => {
                             <Option value="jordan">Jordan</Option>
                             <Option value="nike">Nike</Option>
                             <Option value="running">Running</Option>
-                            <Option value="tranning&gym">Tranning & Gym</Option>
+                            <Option value="training&gym">Training & Gym</Option>
                             <Option value="athletics">Athletics</Option>
                             <Option value="walking">Walking</Option>
                         </Select>

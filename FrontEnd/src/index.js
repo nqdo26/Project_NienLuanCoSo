@@ -80,7 +80,7 @@ const router = createBrowserRouter([
                 element: <Favourite />,
             },
             {
-                path: 'bag',
+                path: '/bag/:email',
                 element: <Bag />,
             },
             {

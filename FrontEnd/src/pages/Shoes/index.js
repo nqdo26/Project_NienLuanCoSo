@@ -2,14 +2,15 @@ import classNames from 'classnames/bind';
 import styles from './Shoes.module.scss';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Radio, Image, Typography, Rate, Collapse, notification, Modal } from 'antd';
-import { DeleteOutlined, EditOutlined, HeartOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, HeartOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Space } from 'antd';
 import { Spin } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getShoesApi } from '../../utils/api';
+import { getShoesApi, addBagApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { AuthContext } from '~/components/Context/auth.context';
 import { deleteShoesApi, addFavouriteApi } from '../../utils/api';
+
 
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -27,6 +28,7 @@ function Shoes() {
     const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400');
     const navigate = useNavigate();
     const [loadingUpdate, setLoadingUpdate] = useState(false);
+    const [loadingAddBag, setLoadingAddBag] = useState(false);
 
     const formatPrice = (price) => {
         return price.toLocaleString();
@@ -71,55 +73,6 @@ function Shoes() {
 
     const handleColorSelect = (name) => {
         setSelectedColor(name);
-    };
-
-    const addToBag = () => {
-        // Kiểm tra xem size và color đã được chọn chưa
-        if (!size || !selectedColor) {
-            notification.warning({
-                message: 'Warning',
-                description: 'Please select both size and color before adding to your bag.',
-                placement: 'topRight',
-            });
-            return;
-        }
-
-        const product = {
-            id: Date.now(),
-            title: 'Nike Air Max SC',
-            priceNew: 2189000,
-            priceOld: null,
-            imgSrc: mainImage,
-            size: size,
-            color: selectedColor,
-            quantity: 1,
-        };
-
-        const existingItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-        const existingProductIndex = existingItems.findIndex(
-            (item) => item.title === product.title && item.size === size && item.color === selectedColor,
-        );
-
-        if (existingProductIndex !== -1) {
-            existingItems[existingProductIndex].quantity += 1;
-            localStorage.setItem('cartItems', JSON.stringify(existingItems));
-
-            notification.success({
-                message: 'Success',
-                description: 'Increased quantity of the product in Bag',
-                placement: 'topRight',
-            });
-        } else {
-            const updatedItems = [...existingItems, product];
-            localStorage.setItem('cartItems', JSON.stringify(updatedItems));
-
-            notification.success({
-                message: 'Success',
-                description: 'Added to Bag',
-                placement: 'topRight',
-            });
-        }
     };
 
     const showDeleteConfirm = () => {
@@ -201,6 +154,48 @@ function Shoes() {
         }
         setLoadingUpdate(false);
     };
+
+    const handleAddToBag = async () => {
+        setLoadingAddBag(true);
+
+        if (!selectedColor || !size) {
+            notification.error({
+                message: 'Please select color and size',
+                description: 'Make sure to choose both color and size before adding to the bag.',
+            });
+            setLoadingAddBag(false);
+            return;
+        }
+    
+        try {
+            const response = await addBagApi(auth.user.email, shoes.title, shoes.tag, size, shoes.price, selectedColor, shoes._id);
+            console.log('>>>Add to bag:', response);
+            if (response && response.EC === 0) {
+                notification.success({
+                    message: 'Success',
+                    description: 'Added to bag successfully.',
+                });
+            } else if (response.EC === 3) {
+                notification.info({
+                    message: 'Product has axisted in bag',
+                    description: 'Increased the number of products',
+                });
+            } else {
+                notification.error({
+                    message: 'Error',
+                    description: response.data.EM,
+                });
+            }
+        } catch (error) {
+            console.error('Error adding to bag:', error);
+            notification.error({
+                message: 'Error',
+                description: 'An error occurred while adding the item to the bag.',
+            });
+        }
+        setLoadingAddBag(false);
+    };
+  
     
 
     return (
@@ -346,10 +341,12 @@ function Shoes() {
                                     <div className={cx('action-btn')}>
                                         <Button
                                             className={cx('btn')}
+                                            icon={<ShoppingCartOutlined />}
                                             style={{ backgroundColor: 'black', color: 'white', marginBottom: '10px' }}
-                                            onClick={addToBag}
+                                            onClick={handleAddToBag}
+                                            loading={loadingAddBag}
                                         >
-                                            Add to Bag
+                                            {loadingAddBag ? 'Adding...' : 'Add to Bag'}
                                         </Button>
                                         <Button
                                             className={cx('btn')}

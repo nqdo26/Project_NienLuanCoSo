@@ -50,6 +50,32 @@ const deleteFavouriteApi = (_id) => {
     return axios.delete(URL_API, { data: { _id } });
 };
 
+const addBagApi = (email, title, tag, size, price, color, shoesId) => {
+    const URL_API = '/v1/api/bag/' + email;
+    const data = {
+        email,
+        title,
+        tag,
+        size,
+        price,
+        color,
+        shoesId,
+        number: 1,
+    };
+    return axios.post(URL_API, data);
+}
+
+const getListBagApi = (email) => {
+    const URL_API = '/v1/api/bag/' + email;
+    return axios.get(URL_API);
+};
+
+const deleteBagApi = (_id) => {
+    const URL_API = '/v1/api/bag/';
+    return axios.delete(URL_API, { data: { _id } });
+};
+
+
 //admin
 const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
     const URL_API = '/v1/api/addproduct';
@@ -132,4 +158,7 @@ export {
     deleteFavouriteApi,
     getShoesByTypeApi,
     searchShoesApi,
+    addBagApi,
+    getListBagApi,
+    deleteBagApi,
 };

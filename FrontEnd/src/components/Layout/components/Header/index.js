@@ -96,18 +96,6 @@ function Header() {
         },
     ];
 
-    const getFavouritesCount = () => {
-        const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
-        return favourites.length;
-    };
-    const favouritesCount = getFavouritesCount();
-
-    const getBagCount = () => {
-        const bag = JSON.parse(localStorage.getItem('cartItems')) || [];
-        return bag.length;
-    };
-    const bagCount = getBagCount();
-
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -162,7 +150,7 @@ function Header() {
 
                             <Tippy clasName={cx('number-btn')} delay={[500, 50]} content="Favorites" placement="bottom">
                                 <Link to={`/favourite/${auth.user.email}`}>
-                                    <Badge count={favouritesCount} offset={[-6, 7]} className={cx('custom-badge')}>
+                                    <Badge offset={[-6, 7]} className={cx('custom-badge')}>
                                         <button className={cx('action-btn')}>
                                             <FarvoriteIcon />
                                         </button>
@@ -170,8 +158,8 @@ function Header() {
                                 </Link>
                             </Tippy>
                             <Tippy clasName={cx('number-btn')} delay={[500, 50]} content="Bag" placement="bottom">
-                                <Link to="/bag">
-                                    <Badge count={bagCount} offset={[-6, 7]} className={cx('custom-badge')}>
+                            <Link to={`/bag/${auth.user.email}`}>
+                                    <Badge offset={[-6, 7]} className={cx('custom-badge')}>
                                         <button className={cx('action-btn')}>
                                             <CartIcon />
                                         </button>

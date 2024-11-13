@@ -18,7 +18,7 @@ function TrainingAndGym() {
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
-                const res = await getShoesByTypeApi('trainingandgym');
+                const res = await getShoesByTypeApi('training&gym');
                 if (res && Array.isArray(res.data)) {
                     setProduct(res.data);
                     setShoes(res.data);

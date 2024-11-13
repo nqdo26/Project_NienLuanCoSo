@@ -18,7 +18,7 @@ const routes = {
 
     shoes: '/productmanage/:_id', 
     favourite: '/favourite/:email',
-    bag: '/bag',
+    bag: '/bag/:email',
 
     nike: 'products/nike',
     jordan: 'products/jordan',

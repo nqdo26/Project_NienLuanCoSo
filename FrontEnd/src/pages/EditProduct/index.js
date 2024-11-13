@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Form, Input, Button, InputNumber, Spin, message, Select } from 'antd';
+import { Form, Input, Button, InputNumber, Spin, message, Select, ColorPicker } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
 import { ShoesContext } from '../../components/Context/shoes.context';
@@ -28,7 +28,7 @@ const EditProduct = () => {
                     setShoes(response.data);
                     form.setFieldsValue({
                         title: response.data.title,
-                        type: response.data.type, // Đặt giá trị type vào form
+                        type: response.data.type,
                         tag: response.data.tag,
                         price: response.data.price,
                         numberOfColors: response.data.colors.length,
@@ -40,15 +40,18 @@ const EditProduct = () => {
                     setColorFields(
                         response.data.colors.map((color, index) => {
                             return (
-                                <Form.Item
-                                    key={`color-${index}`}
-                                    label={`Color ${index + 1}`}
-                                    name={`color-${index + 1}`}
-                                    initialValue={color}
-                                    rules={[{ required: true, message: 'Please input the color!' }]}
-                                >
+                               <div className={cx('form-wrapper')}>
+                                    <Form.Item
+                                        className={cx('form') }
+                                        key={`color-${index}`}
+                                        label={`Color ${index + 1}`}
+                                        name={`color-${index + 1}`}
+                                        initialValue={color}
+                                        rules={[{ required: true, message: 'Please input the color!' }]}
+                                    >
                                     <Input placeholder={`Enter color ${index + 1}`} />
-                                </Form.Item>
+                                    </Form.Item>
+                               </div>
                             );
                         }),
                     );
@@ -63,21 +66,32 @@ const EditProduct = () => {
         fetchShoes();
     }, [_id, form]);
 
+
     const handleNumberOfColorsChange = (value) => {
         setColorFields((prevFields) => {
             const colors = Array.from({ length: value }, (_, index) => (
-                <Form.Item
-                    key={`color-${index}`}
-                    label={`Color ${index + 1}`}
-                    name={`color-${index + 1}`}
-                    rules={[{ required: true, message: 'Please input the color!' }]}
-                >
-                    <Input placeholder={`Enter color ${index + 1}`} />
-                </Form.Item>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    
+                    <Form.Item
+                        key={`color-${index}`}
+                        label={`Color ${index + 1}`}
+                        name={`color-${index + 1}`}
+                        rules={[{ required: true, message: 'Please input the color!' }]}
+                    >
+                        <div className={cx('inner')}>
+                            <ColorPicker className={cx('colorPicker')}/>
+                            <Input
+                            placeholder={`Enter color ${index + 1}`}
+                        />
+                        </div>
+                    </Form.Item>
+              </div>
             ));
             return colors;
         });
     };
+
+    
 
     const handleSizeChange = (minSize, maxSize) => {
         if (minSize < 35) minSize = 35;
@@ -101,7 +115,7 @@ const EditProduct = () => {
             const response = await updateShoesApi(
                 _id,
                 values.title,
-                values.type, // Lấy giá trị type từ form
+                values.type,
                 values.tag,
                 values.price,
                 values.numberOfColors,
@@ -166,7 +180,7 @@ const EditProduct = () => {
                                 <Option value="jordan">Jordan</Option>
                                 <Option value="nike">Nike</Option>
                                 <Option value="running">Running</Option>
-                                <Option value="tranning&gym">Tranning & Gym</Option>
+                                <Option value="training&gym">Training & Gym</Option>
                                 <Option value="athletics">Athletics</Option>
                                 <Option value="walking">Walking</Option>
                             </Select>
