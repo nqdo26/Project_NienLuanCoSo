@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function Nike() {
     const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
     const [product, setProduct] = useState([]);
-    const [error, setError] = useState(null); // Thêm state để lưu thông báo lỗi
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchShoes = async () => {

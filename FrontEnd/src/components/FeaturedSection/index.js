@@ -12,35 +12,54 @@ const FeaturedSection = () => {
             <h1 className={cx('title')}>Featured</h1>
             <Row gutter={16}>
                 <Col span={8}>
-                    <Card className={cx('card')} hoverable cover={<img alt="P-6000" src="https://link-to-image-1" />}>
-                        <Meta title="Just In" description="P-6000" />
-                        <Button className={cx('button')} style={{ marginTop: '10px' }}>
-                            Shop
-                        </Button>
+                    <Card
+                        className={cx('card')}
+                        hoverable
+                        cover={<img alt="P-6000" src={require('~/assets/images/feature/img-5.jpg')} />}
+                    >
+                        <div className={cx('overlay-content')}>
+                            <Meta
+                                title={<span className={cx('meta-title')}>Unleash Your Potential</span>}
+                                description={<span className={cx('meta-description')}>Engineered for champions, built for everyone</span>}
+                            />
+                            <Button className={cx('button')}>
+                                Shop
+                            </Button>
+                        </div>
                     </Card>
                 </Col>
                 <Col span={8}>
                     <Card
                         className={cx('card')}
                         hoverable
-                        cover={<img alt="Nike Pegasus" src="https://link-to-image-2" />}
+                        cover={<img alt="Nike Pegasus" src={require('~/assets/images/feature/img-1.jpg')} />}
                     >
-                        <Meta title="Run in the Rain" description="Nike Pegasus 41 GORE-TEX" />
-                        <Button className={cx('button')} style={{ marginTop: '10px' }}>
-                            Shop
-                        </Button>
+                        <div className={cx('overlay-content')}>
+                            <Meta
+                                title={<span className={cx('meta-title')}>Own the Moment, Own the Run</span>}
+                                description={<span className={cx('meta-description')}>Revolutionizing comfort, redefining performance</span>}
+                            />
+                            <Button className={cx('button')}>
+                                Shop
+                            </Button>
+                        </div>
                     </Card>
                 </Col>
                 <Col span={8}>
                     <Card
                         className={cx('card')}
                         hoverable
-                        cover={<img alt="For playtime" src="https://link-to-image-3" />}
+                        cover={<img alt="For playtime" src={require('~/assets/images/feature/img-4.jpg')} />}
                     >
-                        <Meta title="Easy On" description="For playtime" />
-                        <Button className={cx('button')} style={{ marginTop: '10px' }}>
-                            Shop
-                        </Button>
+                        <div className={cx('overlay-content')}>
+                            <Meta
+                                title={<span className={cx('meta-title')}>Where Comfort Meets Style</span>}
+                                description={<span className={cx('meta-description')}>Built to keep you moving, wherever life takes you</span>}
+                            />
+                            <Button className={cx('button')}>
+                                Shop
+                            </Button>
+                        </div>
                     </Card>
                 </Col>
             </Row>

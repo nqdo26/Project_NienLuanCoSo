@@ -90,6 +90,21 @@
     justify-content: space-between;
 }
 
+.fixed-top {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 0 50px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    transition: top 0.3s;
+}
+
 .header-3 {
     height: 74px;
     width: 100%;

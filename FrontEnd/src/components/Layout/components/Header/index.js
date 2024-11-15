@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 function Header() {
     const navigate = useNavigate();
     const { auth, setAuth } = useContext(AuthContext);
-    console.log('>>Check auth', auth);
+    //  console.log('>>Check auth', auth);
     const items = [
         {
             key: '1',

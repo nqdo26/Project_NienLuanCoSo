@@ -5,27 +5,47 @@ import styles from './Carousel.module.scss';
 
 const cx = classNames.bind(styles);
 
-const contentStyle = {
-  height: '900px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79',
+const contentStyle1 = {
+  height: '950px',
+  backgroundImage: `url(${require('~/assets/images/carousel/carousel-img-1.jpg')})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+};
+
+const contentStyle2 = {
+  height: '950px',
+  backgroundImage: `url(${require('~/assets/images/carousel/carousel-img-4.jpg')})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+};
+
+const contentStyle3 = {
+  height: '950px',
+  backgroundImage: `url(${require('~/assets/images/carousel/carousel-img-3.jpg')})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+};
+
+const contentStyle4 = {
+  height: '950px',
+  backgroundImage: `url(${require('~/assets/images/carousel/carousel-img-2.jpg')})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
 };
 
 const CarouselCustomize = () => (
-  <CarouselCustome autoplay>
+  <CarouselCustome autoplay autoplaySpeed={3000} infinite pauseOnHover={false}>
     <div className={cx('carousel-items')}>
-      <h3 style={contentStyle}>1</h3>
+      <div style={contentStyle1}></div>
     </div>
     <div className={cx('carousel-items')}>
-      <h3 style={contentStyle}>2</h3>
+      <div style={contentStyle2}></div>
     </div>
     <div className={cx('carousel-items')}>
-      <h3 style={contentStyle}>3</h3>
+      <div style={contentStyle3}></div>
     </div>
     <div className={cx('carousel-items')}>
-      <h3 style={contentStyle}>4</h3>
+      <div style={contentStyle4}></div>
     </div>
   </CarouselCustome>
 );

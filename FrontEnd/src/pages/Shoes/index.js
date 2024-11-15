@@ -220,19 +220,6 @@ function Shoes() {
                             <div style={{ display: 'flex', flexDirection: 'row' }}>
                                 <div>
                                     <Card style={{ width: 500, padding: 20, border: 0 }}>
-                                        {auth.user.role === 'ADMIN'
-                                            ? [
-                                                  <div className={cx('icon-group')} key="icons">
-                                                      <Link to={`/editproduct/${shoes._id}`} className={cx('icon')}>
-                                                          <EditOutlined />
-                                                      </Link>
-                                                      <div className={cx('divider')}></div>
-                                                      <button className={cx('icon')} onClick={showDeleteConfirm}>
-                                                          <DeleteOutlined />
-                                                      </button>
-                                                  </div>,
-                                              ]
-                                            : null}
                                         <Space align="start" size={16}>
                                             <Space direction="vertical" size={8}>
                                                 {thumbnails.map((src, index) => (
@@ -255,10 +242,27 @@ function Shoes() {
                                     className={cx('content')}
                                     style={{ margin: '45px', width: '550px', paddingLeft: '50px', marginLeft: '140px' }}
                                 >
-                                    {/* Title and Price */}
-                                    <Title style={{ marginTop: '-10px', marginBottom: '5px' }} level={2}>
-                                        {shoes.title}
-                                    </Title>
+                                   <div className={cx('header')}>
+                                        {/* Title and Price */}
+                                        <Title style={{ marginTop: '-10px', marginBottom: '5px' }} level={2}>
+                                            {shoes.title}
+                                        </Title>
+                                        
+                                        {auth.user.role === 'ADMIN'
+                                                ? [
+                                                      <div className={cx('icon-group')} key="icons">
+                                                          <Link to={`/editproduct/${shoes._id}`} className={cx('icon')}>
+                                                              <EditOutlined />
+                                                          </Link>
+                                                          <div className={cx('divider')}></div>
+                                                          <button className={cx('icon')} onClick={showDeleteConfirm}>
+                                                              <DeleteOutlined />
+                                                          </button>
+                                                      </div>,
+                                                  ]
+                                                : null}
+    
+                                   </div>
                                     <p className={cx('tag')} level={2}>
                                         {shoes.tag}
                                     </p>
