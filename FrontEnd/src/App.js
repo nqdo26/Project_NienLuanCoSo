@@ -6,7 +6,7 @@ import axios from './utils/axios.custiomize';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
 import { Spin } from 'antd';
-import { ShoesWrapper } from '~/components/Context/shoes.context'; 
+import { ShoesWrapper } from '~/components/Context/shoes.context';
 
 function App() {
     const { setAuth, appLoading, setAppLoading } = useContext(AuthContext);
@@ -29,12 +29,11 @@ function App() {
         };
 
         fetchAccount();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [setAppLoading, setAuth]);
 
     return (
         <div className="App">
-            {appLoading === true ? (
+            {appLoading ? (
                 <div
                     style={{
                         position: 'fixed',
@@ -46,7 +45,7 @@ function App() {
                     <Spin size="large" />
                 </div>
             ) : (
-                <>
+                <ShoesWrapper> {/* Bọc toàn bộ Routes */}
                     <Routes>
                         {publicRoutes.map((route, index) => {
                             const Page = route.component;
@@ -63,19 +62,15 @@ function App() {
                                     key={index}
                                     path={route.path}
                                     element={
-                                        <>
-                                            <Layout>
-                                                <ShoesWrapper>
-                                                    <Page />
-                                                </ShoesWrapper>
-                                            </Layout>
-                                        </>
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
                                     }
                                 />
                             );
                         })}
                     </Routes>
-                </>
+                </ShoesWrapper>
             )}
         </div>
     );

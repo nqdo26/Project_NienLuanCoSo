@@ -7,6 +7,7 @@ import CardProduct from '../CardProduct';
 import { Spin } from 'antd';
 import { getShoesByTypeApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -77,20 +78,22 @@ const CardList = ({ title }) => {
                     >
                         {product.map((item) => (
                             <div className={cx('card-cover')} key={item._id}>
-                                <CardProduct
-                                    className={cx('card')}
-                                    hoverable
-                                    cover={
-                                        <img
-                                            alt={item.title}
-                                            src={item.imageUrl}
-                                            style={{ height: '200px', objectFit: 'contain' }}
-                                        />
-                                    }
-                                    title={item.title}
-                                    text={item.description}
-                                    price={item.price}
-                                />
+                                <Link to={`/productmanage/${item._id}`} key={item._id}>
+                                    <CardProduct
+                                        className={cx('card')}
+                                        hoverable
+                                        cover={
+                                            <img
+                                                alt={item.title}
+                                                src={item.imageUrl}
+                                                style={{ height: '200px', objectFit: 'contain' }}
+                                            />
+                                        }
+                                        title={item.title}
+                                        text={item.description}
+                                        price={item.price}
+                                    />
+                                </Link>
                             </div>
                         ))}
                     </Carousel>

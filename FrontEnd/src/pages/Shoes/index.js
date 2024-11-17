@@ -7,9 +7,18 @@ import { Card, Space } from 'antd';
 import { Spin } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getShoesApi, addBagApi } from '../../utils/api';
-import { ShoesContext } from '../../components/Context/shoes.context';
+import { ShoesContext } from '~/components/Context/shoes.context';
 import { AuthContext } from '~/components/Context/auth.context';
 import { deleteShoesApi, addFavouriteApi } from '../../utils/api';
+
+import shoe1 from '~/assets/images/shoes/AF1/1.png';
+import shoe2 from '~/assets/images/shoes/AF1/2.png';
+import shoe3 from '~/assets/images/shoes/AF1/3.png';
+import shoe4 from '~/assets/images/shoes/AF1/4.png';
+import shoe5 from '~/assets/images/shoes/AF1/5.png';
+import shoe6 from '~/assets/images/shoes/AF1/6.png';
+import shoe7 from '~/assets/images/shoes/AF1/7.png';
+
 
 
 const { Title, Paragraph } = Typography;
@@ -25,7 +34,7 @@ function Shoes() {
     const { auth } = useContext(AuthContext);
     const [size, setSize] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
-    const [mainImage, setMainImage] = useState('https://via.placeholder.com/400x400');
+    const [mainImage, setMainImage] = useState('');
     const navigate = useNavigate();
     const [loadingUpdate, setLoadingUpdate] = useState(false);
     const [loadingAddBag, setLoadingAddBag] = useState(false);
@@ -34,14 +43,7 @@ function Shoes() {
         return price.toLocaleString();
     };
 
-    const thumbnails = [
-        'https://via.placeholder.com/400x400',
-        'https://via.placeholder.com/400x400/0000FF',
-        'https://via.placeholder.com/400x400/FF0000',
-        'https://via.placeholder.com/400x400/00FF00',
-        'https://via.placeholder.com/400x400/0000FF',
-        'https://via.placeholder.com/400x400/00FF12',
-    ];
+    const thumbnails = [shoe1, shoe2, shoe3, shoe4, shoe5, shoe6, shoe7];
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,15 +227,21 @@ function Shoes() {
                                                 {thumbnails.map((src, index) => (
                                                     <Image
                                                         key={index}
-                                                        width={60}
+                                                        width={58}
+                                                        height={63}
                                                         src={src}
                                                         alt={`Sub image ${index + 1}`}
                                                         preview={true}
                                                         onMouseEnter={() => setMainImage(src)}
+                                                        style={{ borderRadius: '7px' }}
                                                     />
                                                 ))}
                                             </Space>
-                                            <Image height={600} width={535} src={mainImage} alt="Main product" />
+                                            <Image 
+                                                style={{ borderRadius: '7px' }} 
+                                                height={650} width={535} 
+                                                src={mainImage || thumbnails[0]}
+                                                alt="Main product" />
                                         </Space>
                                     </Card>
                                 </div>
