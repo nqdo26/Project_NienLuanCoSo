@@ -206,7 +206,6 @@ const addFavouriteService = async (email, title, tag, price, numberOfColors, sho
 
 const getListFavouriteService = async (email) => {
     try {
-        // Tìm người dùng bằng email
         const user = await User.findOne({ email });
         if (!user) {
             return {
@@ -214,8 +213,6 @@ const getListFavouriteService = async (email) => {
                 EM: "User not found"
             };
         }
-
-        // Tìm danh sách yêu thích của người dùng
         const favourites = await Favourite.find({ userId: user._id });
         return {
             EC: 0,

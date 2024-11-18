@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, InputNumber, notification, Select} from 'antd';
+import { Form, Input, Button, InputNumber, notification, Select, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './AddProduct.module.scss';
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,22 +10,22 @@ const cx = classNames.bind(styles);
 
 const AddProduct = () => {
     const [form] = Form.useForm();
-    
     const { Option } = Select;
-
     const navigate = useNavigate();
 
-    //color
+    // Color
     const [numberOfColors, setNumberOfColors] = useState(0);
-
     const [colorFields, setColorFields] = useState([]);
     const [colorValues, setColorValues] = useState({});
 
-    //size
+    // Size
     const [sizes, setSizes] = useState([]);
 
-    //loadding-effect
+    // Loading effect
     const [loadingUpdate, setLoadingUpdate] = useState(false);
+
+    // Image upload
+    const [fileList, setFileList] = useState([]);
 
     const handleNumberOfColorsChange = (value) => {
         setNumberOfColors(value);
@@ -82,45 +83,57 @@ const AddProduct = () => {
         setSizes(sizeArray);
     };
 
+    const handleUploadChange = ({ fileList }) => {
+        setFileList(fileList);
+    };
+
     const onFinish = async (values) => {
         setLoadingUpdate(true);
         const { title, type, tag, price, numberOfColors, minSize, maxSize, description } = values;
 
-        // Lấy mã màu từ colorValues để gửi đến BackEnd
         const colors = Object.values(colorValues).slice(0, numberOfColors);
 
-        const res = await createShoesApi(
-            title,
-            type,
-            tag,
-            price,
-            numberOfColors,
-            colors,
-            minSize,
-            maxSize,
-            description,
-        );
+        const images = fileList.map(file => file.originFileObj);
 
-        if (res.EC === 1) {
-            setLoadingUpdate(false);
-            notification.error({
-                message: 'ERROR',
-                description: res.EM,
-            });
-        } else if (res.EC === 0) {
-            notification.success({
-                message: 'CREATE PRODUCT',
-                description: res.EM,
-            });
-            navigate('/productmanage');
-        } else {
-            notification.error({
-                message: 'ERROR',
-                description: 'An error occurred',
-            });
+        try {
+            const res = await createShoesApi(
+                title,
+                type,
+                tag,
+                price,
+                numberOfColors,
+                colors,
+                minSize,
+                maxSize,
+                description,
+                images
+            );
+            console.log(">>> RES", res);
+            console.log(">>> DATA", res.data);
+
+
+            if (res && res.EC === 1) {
+                setLoadingUpdate(false);
+                notification.error({
+                    message: 'ERROR',
+                    description: res.EM,
+                });
+            } else if (res.EC === 0) {
+                notification.success({
+                    message: 'CREATE PRODUCT',
+                    description: res.EM,
+                });
+                navigate('/productmanage');
+            } else {
+                notification.error({
+                    message: 'ERROR',
+                    description: 'An error occurred',
+                });
+            }
+        } catch (error) {
+            console.error('Failed to create product:', error);
+            notification.error('An error occurred while creating the product.');
         }
-
-        console.log('>> Success: ', res);
     };
 
     return (
@@ -233,6 +246,22 @@ const AddProduct = () => {
                         rules={[{ required: true, message: 'Please input the description!' }]}
                     >
                         <Input.TextArea placeholder="Enter product description" rows={4} />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Images"
+                        name="images"
+                        valuePropName="fileList"
+                        getValueFromEvent={handleUploadChange}
+                    >
+                        <Upload
+                            listType="picture"
+                            beforeUpload={() => false}
+                            multiple
+                            onChange={handleUploadChange}
+                        >
+                            <Button icon={<UploadOutlined />}>Select Images</Button>
+                        </Upload>
                     </Form.Item>
 
                     <Form.Item>

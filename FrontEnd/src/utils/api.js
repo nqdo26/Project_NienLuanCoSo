@@ -77,21 +77,30 @@ const deleteBagApi = (_id) => {
 
 
 //admin
-const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description, images) => {
     const URL_API = '/v1/api/addproduct';
-    const data = {
-        title,
-        type,
-        tag,
-        price,
-        numberOfColors,
-        colors,
-        minSize,
-        maxSize,
-        description,
-    };
-    return axios.post(URL_API, data);
-};
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('type', type);
+    formData.append('tag', tag);
+    formData.append('price', price);
+    formData.append('numberOfColors', numberOfColors);
+    formData.append('colors', JSON.stringify(colors));
+    formData.append('minSize', minSize);
+    formData.append('maxSize', maxSize);
+    formData.append('description', description);
+
+    images.forEach((image, index) => {
+        formData.append('images', image);
+    });
+
+    return axios.post(URL_API, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+}
+
 
 const getListShoesApi = () => {
     const URL_API = '/v1/api/productmanage';

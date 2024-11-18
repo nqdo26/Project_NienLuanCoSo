@@ -1,14 +1,14 @@
 const Shoes = require("../models/shoes");
 
-const createShoesService = async (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
+const createShoesService = async (title, type, tag, price, numberOfColors, colors, minSize, maxSize, description, images) => {
     try {
-        const shoes = await Shoes.findOne({title});
-        if(shoes) {
+        const shoes = await Shoes.findOne({ title });
+        if (shoes) {
             console.log(`Product ${title} đã tồn tại`);
             return {
                 EC: 1,
                 EM: `Product ${title} has already been axisted`
-            }
+            };
         }
 
         let result = await Shoes.create({
@@ -17,20 +17,21 @@ const createShoesService = async (title, type, tag, price, numberOfColors, color
             tag: tag,
             price: price,
             numberOfColors: numberOfColors,
-            colors: colors, 
+            colors: colors,
             minSize: minSize,
             maxSize: maxSize,
-            description: description
+            description: description,
+            images: images // Thêm thuộc tính images
         });
         return {
             EC: 0,
             EM: "Create product success",
             data: result
-        }
+        };
     } catch (error) {
         console.log(error);
         return {
-            EC: 2, 
+            EC: 2,
             EM: "An error occurred"
         };
     }

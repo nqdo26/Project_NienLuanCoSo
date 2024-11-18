@@ -10,8 +10,8 @@ const shoesSchema = new mongoose.Schema({
     minSize: Number,
     maxSize: Number, 
     description: String,
+    images: [String], // Thêm trường images để lưu trữ URL của 7 hình ảnh
 });
-
 
 const Shoes = mongoose.model('shoes', shoesSchema);
 

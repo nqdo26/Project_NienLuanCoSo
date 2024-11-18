@@ -11,16 +11,6 @@ import { ShoesContext } from '~/components/Context/shoes.context';
 import { AuthContext } from '~/components/Context/auth.context';
 import { deleteShoesApi, addFavouriteApi } from '../../utils/api';
 
-import shoe1 from '~/assets/images/shoes/AF1/1.png';
-import shoe2 from '~/assets/images/shoes/AF1/2.png';
-import shoe3 from '~/assets/images/shoes/AF1/3.png';
-import shoe4 from '~/assets/images/shoes/AF1/4.png';
-import shoe5 from '~/assets/images/shoes/AF1/5.png';
-import shoe6 from '~/assets/images/shoes/AF1/6.png';
-import shoe7 from '~/assets/images/shoes/AF1/7.png';
-
-
-
 const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
 const { Text } = Typography;
@@ -43,10 +33,7 @@ function Shoes() {
         return price.toLocaleString();
     };
 
-    const thumbnails = [shoe1, shoe2, shoe3, shoe4, shoe5, shoe6, shoe7];
-
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
@@ -56,6 +43,7 @@ function Shoes() {
                 if (response && response.data) {
                     setAShoes(response.data);
                     setShoes(response.data);
+                    setMainImage(response.data.images[0]); // Set the first image as the main image
                     console.log('>>>Shoes set to:', response.data);
                 }
             } catch (error) {
@@ -66,8 +54,7 @@ function Shoes() {
         };
 
         fetchShoes();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [_id]);
+    }, [_id, setAppLoading, setShoes]);
 
     const handleChange = (e) => {
         setSize(e.target.value);
@@ -198,8 +185,6 @@ function Shoes() {
         setLoadingAddBag(false);
     };
   
-    
-
     return (
         <div className={cx('wrapper')}>
             {appLoading ? (
@@ -224,7 +209,7 @@ function Shoes() {
                                     <Card style={{ width: 500, padding: 20, border: 0 }}>
                                         <Space align="start" size={16}>
                                             <Space direction="vertical" size={8}>
-                                                {thumbnails.map((src, index) => (
+                                                {shoes.images.map((src, index) => (
                                                     <Image
                                                         key={index}
                                                         width={58}
@@ -240,7 +225,7 @@ function Shoes() {
                                             <Image 
                                                 style={{ borderRadius: '7px' }} 
                                                 height={650} width={535} 
-                                                src={mainImage || thumbnails[0]}
+                                                src={mainImage || shoes.images[0]}
                                                 alt="Main product" />
                                         </Space>
                                     </Card>
