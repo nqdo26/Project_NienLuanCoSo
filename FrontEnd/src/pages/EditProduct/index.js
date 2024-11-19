@@ -1,21 +1,25 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Form, Input, Button, InputNumber, Spin, message, Select, ColorPicker } from 'antd';
+import { Form, Input, InputNumber, Select, Button, Spin, message, Upload, Image, ColorPicker } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { getShoesApiForEdit, updateShoesApi } from '~/utils/api';
+import { ShoesContext } from '~/components/Context/shoes.context';
 import classNames from 'classnames/bind';
 import styles from './EditProduct.module.scss';
-import { ShoesContext } from '../../components/Context/shoes.context';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getShoesApiForEdit, updateShoesApi } from '../../utils/api';
+
 
 const cx = classNames.bind(styles);
 
 const EditProduct = () => {
     const { _id } = useParams();
-    const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
+    const { appLoading, setAppLoading } = useContext(ShoesContext);
     const [form] = Form.useForm();
     const [colorFields, setColorFields] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [loadingUpdate, setLoadingUpdate] = useState(false);
     const [initialColors, setInitialColors] = useState([]);
+    const [images, setImages] = useState([]);
+    const [fileList, setFileList] = useState([]);
     const navigate = useNavigate();
     const { Option } = Select;
 
@@ -25,7 +29,6 @@ const EditProduct = () => {
             try {
                 const response = await getShoesApiForEdit(_id);
                 if (response && response.data) {
-                    setShoes(response.data);
                     form.setFieldsValue({
                         title: response.data.title,
                         type: response.data.type,
@@ -37,6 +40,9 @@ const EditProduct = () => {
                         maxSize: response.data.maxSize,
                     });
                     setInitialColors(response.data.colors);
+                    setImages(response.data.images);
+                    handleNumberOfColorsChange(response.data.colors.length);
+                     setInitialColors(response.data.colors);
                     setColorFields(
                         response.data.colors.map((color, index) => {
                             return (
@@ -62,41 +68,32 @@ const EditProduct = () => {
                 setAppLoading(false);
             }
         };
-
         fetchShoes();
-    }, [_id, form]);
-
+    }, [_id, form, setAppLoading]);
 
     const handleNumberOfColorsChange = (value) => {
         setColorFields((prevFields) => {
             const colors = Array.from({ length: value }, (_, index) => (
-                <div style={{ display: 'flex', gap: '10px' }}>
-                    
+                <div key={`color-field-${index}`} style={{ display: 'flex', gap: '10px' }}>
                     <Form.Item
-                        key={`color-${index}`}
                         label={`Color ${index + 1}`}
                         name={`color-${index + 1}`}
                         rules={[{ required: true, message: 'Please input the color!' }]}
                     >
                         <div className={cx('inner')}>
-                            <ColorPicker className={cx('colorPicker')}/>
-                            <Input
-                            placeholder={`Enter color ${index + 1}`}
-                        />
+                            <ColorPicker className={cx('colorPicker')} />
+                            <Input placeholder={`Enter color ${index + 1}`} />
                         </div>
                     </Form.Item>
-              </div>
+                </div>
             ));
             return colors;
         });
     };
 
-    
-
     const handleSizeChange = (minSize, maxSize) => {
         if (minSize < 35) minSize = 35;
         if (maxSize > 45) maxSize = 45;
-
         const sizeArray = [];
         for (let size = minSize; size <= maxSize; size += 0.5) {
             sizeArray.push(size.toFixed(1));
@@ -110,7 +107,7 @@ const EditProduct = () => {
         for (let i = 0; i < values.numberOfColors; i++) {
             colors.push(values[`color-${i + 1}`] || initialColors[i]);
         }
-
+        const newImages = fileList.map((file) => file.originFileObj);
         try {
             const response = await updateShoesApi(
                 _id,
@@ -123,14 +120,13 @@ const EditProduct = () => {
                 values.minSize,
                 values.maxSize,
                 values.description,
+                newImages
             );
-
             if (response.EC === 0) {
-                message.success('Update product success');
+                message.success('Product updated successfully');
                 navigate(`/productmanage/${_id}`);
             } else {
-                message.error(response.data.EM);
-                message.error('Error update product');
+                message.error(response.EM);
             }
         } catch (error) {
             console.error('Failed to update shoe:', error);
@@ -209,7 +205,7 @@ const EditProduct = () => {
                         >
                             <InputNumber
                                 min={1}
-                                max={5}
+                                max={3}
                                 onChange={handleNumberOfColorsChange}
                                 style={{ width: '100%' }}
                                 placeholder="Enter number of colors"
@@ -267,12 +263,40 @@ const EditProduct = () => {
                             <Input.TextArea placeholder="Enter product description" rows={4} />
                         </Form.Item>
 
+                        {/* Display current images */}
+                        <Form.Item label="Current Images">
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                {images.map((imgSrc, index) => (
+                                    <Image
+                                        key={index}
+                                        src={imgSrc}
+                                        alt={`Shoe Image ${index + 1}`}
+                                        width={100}
+                                        height={100}
+                                    />
+                                ))}
+                            </div>
+                        </Form.Item>
+
+                        {/* Upload new images */}
+                        <Form.Item label="Upload New Images">
+                            <Upload
+                                listType="picture"
+                                fileList={fileList}
+                                onChange={({ fileList }) => setFileList(fileList)}
+                                beforeUpload={() => false}
+                                multiple={true}
+                                maxCount={7}
+                            >
+                                <Button icon={<UploadOutlined />}>Select Images</Button>
+                            </Upload>
+                        </Form.Item>
+
                         <Form.Item>
                             <div className={cx('action-btn')}>
                                 <Button type="primary" htmlType="submit" loading={loadingUpdate}>
                                     {loadingUpdate ? 'Submitting...' : 'Submit'}
                                 </Button>
-
                                 <Button onClick={handleBack}>Back</Button>
                             </div>
                         </Form.Item>

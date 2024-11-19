@@ -85,13 +85,17 @@ const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize
     formData.append('tag', tag);
     formData.append('price', price);
     formData.append('numberOfColors', numberOfColors);
-    formData.append('colors', JSON.stringify(colors));
     formData.append('minSize', minSize);
     formData.append('maxSize', maxSize);
     formData.append('description', description);
 
-    images.forEach((image, index) => {
+    images.forEach((image) => {
         formData.append('images', image);
+    });
+
+    // Đảm bảo thêm từng màu sắc đúng định dạng
+    colors.forEach((color) => {
+        formData.append('colors[]', color); // Thêm key 'colors[]' để backend hiểu là mảng
     });
 
     return axios.post(URL_API, formData, {
@@ -99,7 +103,8 @@ const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize
             'Content-Type': 'multipart/form-data',
         },
     });
-}
+};
+
 
 
 const getListShoesApi = () => {

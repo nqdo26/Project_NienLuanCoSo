@@ -40,7 +40,7 @@ routerAPI.get("/productmanage", getListShoes)
 routerAPI.get("/products", getListShoes)
 routerAPI.get("/productmanage/:_id", getShoesByIdForManage)
 routerAPI.get("/editproduct/:_id", getShoesByIdForEdit)
-routerAPI.put("/editproduct/:_id", updateShoes); 
+routerAPI.put("/editproduct/:_id", upload.array('images'), updateShoes); 
 routerAPI.delete("/productmanage/:_id", deleteShoes);
 
 //FAVOURITE

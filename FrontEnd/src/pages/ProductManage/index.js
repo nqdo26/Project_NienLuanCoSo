@@ -69,6 +69,7 @@ function ProductManage() {
                                 <Link to={`/productmanage/${item._id}`} key={item._id}>
                                     <div key={item._id} className={cx('card-cover')}>
                                         <CardProductManage
+                                            images={item.images}    
                                             key={item._id}
                                             id={item._id}
                                             title={item.title}

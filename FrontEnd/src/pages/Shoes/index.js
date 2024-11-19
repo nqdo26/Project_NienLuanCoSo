@@ -43,7 +43,7 @@ function Shoes() {
                 if (response && response.data) {
                     setAShoes(response.data);
                     setShoes(response.data);
-                    setMainImage(response.data.images[0]); // Set the first image as the main image
+                    setMainImage(response.data.images[0]); 
                     console.log('>>>Shoes set to:', response.data);
                 }
             } catch (error) {
@@ -73,7 +73,11 @@ function Shoes() {
             cancelText: 'No',
             onOk: handleDeleteShoes,
             onCancel() {
-                console.log('Cancel delete');
+                notification.info9({
+                    message: 'Info',
+                    description: 'Delete action has been canceled.',
+                    placement: 'topRight',
+                })
             },
         });
     };
@@ -264,20 +268,24 @@ function Shoes() {
 
                                     {/* Color */}
                                     <div className={cx('color-selection')} style={{ marginBottom: '20px' }}>
-                                        <div className={cx('color-gird')}>
-                                            {shoes.colors.map((colorCode, index) => (
+                                    <div className={cx('color-gird')}>
+                                        {shoes.colors.map((colorCode, index) => {
+                                            const color = Array.isArray(colorCode) ? colorCode[0] : colorCode;
+                                            console.log('>>>Color:', color);
+                                            return (
                                                 <div
-                                                    className={cx('color-item', { selected: selectedColor === colorCode })}
+                                                    className={cx('color-item', { selected: selectedColor === color })}
                                                     key={index}
-                                                    onClick={() => handleColorSelect(colorCode)}
+                                                    onClick={() => handleColorSelect(color)}
                                                 >
                                                     <div
                                                         className={cx('color-circle')}
-                                                        style={{ backgroundColor: colorCode }}
+                                                        style={{ backgroundColor: color }}
                                                     ></div>
                                                 </div>
-                                            ))}
-                                        </div>
+                                            );
+                                        })}
+                                    </div>
                                     </div>
 
                                     {/* Size */}

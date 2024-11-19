@@ -8,7 +8,7 @@ import { AuthContext } from '~/components/Context/auth.context';
 
 const cx = classNames.bind(styles);
 
-function CardProductManage({ id, title, tag, numberOfColors, price }) {
+function CardProductManage({ id, title, tag, numberOfColors, price, images }) {
     const { auth } = useContext(AuthContext);
     const { Title, Text } = Typography;
 
@@ -19,7 +19,7 @@ function CardProductManage({ id, title, tag, numberOfColors, price }) {
 
     return (
         <div className={cx('card-size')}>
-            <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
+             <Card hoverable cover={<img alt='product' className={cx('product-image')} src={images[2]} />}>
                 {auth.user.role === 'ADMIN'
                     ? [
                           <div className={cx('icon-group')} key="icons">

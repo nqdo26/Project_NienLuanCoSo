@@ -14,6 +14,7 @@ const AddProduct = () => {
     const navigate = useNavigate();
 
     // Color
+    // eslint-disable-next-line
     const [numberOfColors, setNumberOfColors] = useState(0);
     const [colorFields, setColorFields] = useState([]);
     const [colorValues, setColorValues] = useState({});
@@ -90,11 +91,11 @@ const AddProduct = () => {
     const onFinish = async (values) => {
         setLoadingUpdate(true);
         const { title, type, tag, price, numberOfColors, minSize, maxSize, description } = values;
-
+    
         const colors = Object.values(colorValues).slice(0, numberOfColors);
-
-        const images = fileList.map(file => file.originFileObj);
-
+    
+        const images = fileList.map((file) => file.originFileObj);
+    
         try {
             const res = await createShoesApi(
                 title,
@@ -108,10 +109,10 @@ const AddProduct = () => {
                 description,
                 images
             );
+    
             console.log(">>> RES", res);
             console.log(">>> DATA", res.data);
-
-
+    
             if (res && res.EC === 1) {
                 setLoadingUpdate(false);
                 notification.error({
@@ -132,9 +133,13 @@ const AddProduct = () => {
             }
         } catch (error) {
             console.error('Failed to create product:', error);
-            notification.error('An error occurred while creating the product.');
+            notification.error({
+                message: 'ERROR',
+                description: 'An error occurred while creating the product.',
+            });
         }
     };
+    
 
     return (
         <div className={cx('wrapper')}>
