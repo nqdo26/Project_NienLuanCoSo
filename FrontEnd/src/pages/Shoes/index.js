@@ -482,7 +482,7 @@ function Shoes() {
                             </div>
                         </div>
                     ) : (
-                        <div>loadding error</div>
+                        <div>No product available</div>
                     )}
                 </>
             )}

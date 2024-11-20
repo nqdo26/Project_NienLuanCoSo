@@ -93,9 +93,8 @@ const createShoesApi = (title, type, tag, price, numberOfColors, colors, minSize
         formData.append('images', image);
     });
 
-    // Đảm bảo thêm từng màu sắc đúng định dạng
     colors.forEach((color) => {
-        formData.append('colors[]', color); // Thêm key 'colors[]' để backend hiểu là mảng
+        formData.append('colors[]', color); 
     });
 
     return axios.post(URL_API, formData, {
@@ -122,21 +121,46 @@ const getShoesApiForEdit = (_id) => {
     return axios.get(URL_API);
 };
 
-const updateShoesApi = (_id, title, type, tag, price, numberOfColors, colors, minSize, maxSize, description) => {
-    const URL_API = '/v1/api/editproduct/' + _id;
-    const data = {
-        title,
-        type,
-        tag,
-        price,
-        numberOfColors,
-        colors,
-        minSize,
-        maxSize,
-        description,
-    };
-    return axios.put(URL_API, data);
+const updateShoesApi = (_id, title, type, tag, price, numberOfColors, colors, minSize, maxSize, description, images) => {
+    const URL_API = `/v1/api/editproduct/${_id}`;
+    const formData = new FormData();
+
+    formData.append('title', title);
+    formData.append('type', type);
+    formData.append('tag', tag);
+    formData.append('price', price);
+    formData.append('numberOfColors', numberOfColors);
+    formData.append('minSize', minSize);
+    formData.append('maxSize', maxSize);
+    formData.append('description', description);
+
+    colors.forEach((color) => {
+        formData.append('colors[]', color);
+    });
+
+    if (images && images.length > 0) {
+        images.forEach((image) => {
+            if (image instanceof File) {  
+                formData.append('images', image); 
+            }
+        });
+    }
+
+    return axios.put(URL_API, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',  
+        }
+    })
+    .then(response => {
+        return response.data; 
+    })
+    .catch(error => {
+        console.error('Error updating shoes:', error);
+        throw error; 
+    });
 };
+
+
 
 const deleteShoesApi = (_id) => {
     const URL_API = '/v1/api/productmanage/' + _id;

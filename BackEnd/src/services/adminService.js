@@ -21,7 +21,7 @@ const createShoesService = async (title, type, tag, price, numberOfColors, color
             minSize: minSize,
             maxSize: maxSize,
             description: description,
-            images: images // Thêm thuộc tính images
+            images: images 
         });
         return {
             EC: 0,
@@ -87,28 +87,44 @@ const getShoesByIdService = async (_id) => {
     }
 };
 
-const updateShoesService = async (_id, updatedData) => {
+const updateShoesService = async (_id, updatedData, newImages) => {
     try {
-        const shoes = await Shoes.findByIdAndUpdate(_id, updatedData, { new: true });
+        const shoes = await Shoes.findById(_id);
         if (!shoes) {
             return {
                 EC: 1,
-                EM: `Product not found`,
+                EM: 'Product not found', 
             };
         }
+
+
+        if (newImages.length > 0) {
+            if (shoes.images && shoes.images.length > 0) {
+                const oldImages = shoes.images;
+                for (const imageUrl of oldImages) {
+                    const publicId = imageUrl.split('/').pop().split('.')[0];
+                    await cloudinary.uploader.destroy(`shoes_images/${publicId}`);
+                }
+            }
+            updatedData.images = newImages; 
+        }
+
+        const updatedShoes = await Shoes.findByIdAndUpdate(_id, updatedData, { new: true });
+
         return {
             EC: 0,
-            EM: "Update product success",
-            data: shoes,
+            EM: 'Update product success',
+            data: updatedShoes,
         };
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return {
             EC: 2,
-            EM: "An error occurred",
+            EM: 'An error occurred during update', 
         };
     }
 };
+
 
 const deleteShoesService = async (_id) => {
     try {

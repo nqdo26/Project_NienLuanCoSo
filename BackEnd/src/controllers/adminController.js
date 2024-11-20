@@ -30,16 +30,21 @@ const getShoesByIdForEdit = async (req, res) => {
 };
 
 const updateShoes = async (req, res) => {
-    const { _id } = req.params; 
-    const updatedData = req.body; 
+    const { _id } = req.params;
+    const updatedData = req.body;
 
-    if (req.files && req.files.length > 0) {
-        const imageUrls = req.files.map(file => file.path);  
-        updatedData.imageUrls = imageUrls;
+    const newImages = req.files ? req.files.map(file => file.path) : [];
+
+    try {
+        const data = await updateShoesService(_id, updatedData, newImages);
+        return res.status(200).json(data); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            EC: 2,
+            EM: 'An error occurred while updating the product', 
+        });
     }
-    
-    const data = await updateShoesService(_id, updatedData); 
-    return res.status(200).json(data); 
 };
 
 const deleteShoes = async (req, res) => {

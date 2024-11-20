@@ -35,12 +35,12 @@ routerAPI.post("/admin", createAdmin);
 
 //SHOES
 
-routerAPI.post('/addproduct', upload.array('images', 7), createShoes); 
+routerAPI.post('/addproduct', upload.array('images', 7), delay, createShoes); 
 routerAPI.get("/productmanage", getListShoes)
 routerAPI.get("/products", getListShoes)
 routerAPI.get("/productmanage/:_id", getShoesByIdForManage)
 routerAPI.get("/editproduct/:_id", getShoesByIdForEdit)
-routerAPI.put("/editproduct/:_id", upload.array('images'), updateShoes); 
+routerAPI.put("/editproduct/:_id", upload.array('images', 7), delay, updateShoes);
 routerAPI.delete("/productmanage/:_id", deleteShoes);
 
 //FAVOURITE

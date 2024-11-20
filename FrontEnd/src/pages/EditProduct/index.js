@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Select, Button, Spin, message, Upload, Image, ColorPicker } from 'antd';
+import { Form, Input, InputNumber, Select, Button, Spin, message, Upload, Image, ColorPicker, notification } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
@@ -103,11 +103,15 @@ const EditProduct = () => {
 
     const onFinish = async (values) => {
         setLoadingUpdate(true);
+    
         const colors = [];
         for (let i = 0; i < values.numberOfColors; i++) {
             colors.push(values[`color-${i + 1}`] || initialColors[i]);
         }
-        const newImages = fileList.map((file) => file.originFileObj);
+        const newImages = fileList.length > 0 ? fileList.map((file) => file.originFileObj) : [];
+    
+        console.log('New Images collected:', newImages);
+        
         try {
             const response = await updateShoesApi(
                 _id,
@@ -122,19 +126,25 @@ const EditProduct = () => {
                 values.description,
                 newImages
             );
-            if (response.EC === 0) {
-                message.success('Product updated successfully');
+            if (response) {
+                notification.success({
+                    message: 'Success',
+                    description: 'Update product successfully',
+                });
                 navigate(`/productmanage/${_id}`);
             } else {
-                message.error(response.EM);
+                message.error('An error occurred while updating the product.');
             }
         } catch (error) {
-            console.error('Failed to update shoe:', error);
+            console.error('Error:', error);
             message.error('An error occurred while updating the product.');
         } finally {
             setLoadingUpdate(false);
         }
     };
+    
+
+    
 
     const handleBack = () => {
         navigate(`/productmanage/${_id}`);
