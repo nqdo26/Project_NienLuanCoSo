@@ -12,7 +12,7 @@ const cx = classNames.bind(styles);
 function Jordan() {
     const { setShoes, appLoading, setAppLoading } = useContext(ShoesContext);
     const [product, setProduct] = useState([]);
-    const [error, setError] = useState(null); // Thêm state để lưu thông báo lỗi
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchShoes = async () => {
@@ -62,6 +62,7 @@ function Jordan() {
                         <Link to={`/productmanage/${item._id}`} key={item._id}>
                             <div key={item._id} className={cx('card-cover')}>
                                 <CardProductManage
+                                    images={item.images}    
                                     title={item.title}
                                     tag={item.tag}
                                     numberOfColors={item.numberOfColors}

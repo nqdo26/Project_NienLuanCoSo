@@ -54,7 +54,7 @@ function Products() {
             ) : (
                 <>
                     {product.length === 0 ? (
-                       <p>No product</p>
+                       <p className={cx('no-product')} >No product</p>
                     ) : (
                         <div className={cx('item')}>
                             {product.map((item) => (

@@ -1,6 +1,6 @@
 import { Card, Typography } from 'antd';
 import classNames from 'classnames/bind';
-import styles from './CardProductManage.module.scss';
+import styles from './CardCarousel.module.scss';
 import { SettingOutlined} from '@ant-design/icons';
 import { useContext } from 'react';
 import { AuthContext } from '~/components/Context/auth.context';
@@ -8,7 +8,8 @@ import { AuthContext } from '~/components/Context/auth.context';
 
 const cx = classNames.bind(styles);
 
-function CardProductManage({ id, title, tag, numberOfColors, price, images }) {
+function CardProductCarousel
+({ id, title, tag, numberOfColors, price, images }) {
     const { auth } = useContext(AuthContext);
     const { Title, Text } = Typography;
 
@@ -19,7 +20,7 @@ function CardProductManage({ id, title, tag, numberOfColors, price, images }) {
 
     return (
         <div className={cx('card-size')}>
-             <Card hoverable cover={<img alt='product' className={cx('product-image')} src={images[0]} />}>
+             <Card hoverable cover={<img alt='product' className={cx('product-image')} src={images[2]} />}>
                 {auth.user.role === 'ADMIN'
                     ? [
                           <div className={cx('icon-group')} key="icons">
@@ -52,4 +53,5 @@ function CardProductManage({ id, title, tag, numberOfColors, price, images }) {
     );
 }
 
-export default CardProductManage;
+export default CardProductCarousel
+;

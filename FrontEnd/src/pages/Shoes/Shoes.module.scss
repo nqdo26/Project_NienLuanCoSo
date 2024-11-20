@@ -59,10 +59,11 @@
 }
 
 .color-circle {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 5px;
     margin-bottom: 4px;
+    border: 1px rgb(167, 167, 167) solid;
     &:hover {
         border: 1px solid black;
     }

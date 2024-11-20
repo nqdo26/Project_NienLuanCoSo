@@ -3,11 +3,11 @@ import { Carousel } from 'antd';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import classNames from 'classnames/bind';
 import styles from './CardList.module.scss';
-import CardProduct from '../CardProduct';
 import { Spin } from 'antd';
 import { getShoesByTypeApi } from '../../utils/api';
 import { ShoesContext } from '../../components/Context/shoes.context';
 import { Link } from 'react-router-dom';
+import CardCarousel from '../CardCarousel';
 
 const cx = classNames.bind(styles);
 
@@ -77,26 +77,20 @@ const CardList = ({ title }) => {
                         style={{ paddingBottom: '30px' }}
                     >
                         {product.map((item) => (
-                            <div className={cx('card-cover')} key={item._id}>
+                            <div style={{ margin: '0 10px' }} className={cx('card-cover')} key={item._id}>
                                 <Link to={`/productmanage/${item._id}`} key={item._id}>
-                                    <CardProduct
-                                        className={cx('card')}
-                                        hoverable
-                                        cover={
-                                            <img
-                                                alt={item.title}
-                                                src={item.imageUrl}
-                                                style={{ height: '200px', objectFit: 'contain' }}
-                                            />
-                                        }
+                                    <CardCarousel
+                                        images={item.images}    
                                         title={item.title}
-                                        text={item.description}
+                                        tag={item.tag}
+                                        numberOfColors={item.numberOfColors}
                                         price={item.price}
                                     />
                                 </Link>
                             </div>
                         ))}
                     </Carousel>
+
                 )}
             </div>
         </div>

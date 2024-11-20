@@ -62,6 +62,7 @@ function Athletics() {
                         <Link to={`/productmanage/${item._id}`} key={item._id}>
                             <div key={item._id} className={cx('card-cover')}>
                                 <CardProductManage
+                                    images={item.images}    
                                     title={item.title}
                                     tag={item.tag}
                                     numberOfColors={item.numberOfColors}

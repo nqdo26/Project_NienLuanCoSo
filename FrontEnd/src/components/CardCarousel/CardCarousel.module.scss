@@ -1,0 +1,34 @@
+.card-size {
+    width: 445px;
+    min-height: 445px; 
+    display: flex;
+    flex-direction: column;
+    
+    .icon-group {
+        position: absolute;
+        top: 12px; 
+        right: 17px;
+        display: flex;
+        gap: 25px;
+        z-index: 1; 
+
+    }
+    &:hover .icon {
+        transform: scale(1.5); 
+    }
+}
+
+
+.icon {
+    background: none;
+    font-size: 18px;
+    padding: 2px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.product-image {
+    width: 100%;  
+    height: 486px; 
+    object-fit: cover;
+}

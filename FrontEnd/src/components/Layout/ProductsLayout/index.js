@@ -110,7 +110,7 @@ function ProductLayout({ children, key }) {
                     </Sider>
 
                     <Layout>
-                        <Content style={{ padding: '20px' }}>{children}</Content>
+                        <Content className={cx('content-wrapper')} style={{ padding: '20px' }}>{children}</Content>
                     </Layout>
                 </Layout>
             </div>
