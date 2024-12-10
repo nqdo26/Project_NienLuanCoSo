@@ -44,7 +44,6 @@ function Shoes() {
                     setAShoes(response.data);
                     setShoes(response.data);
                     setMainImage(response.data.images[0]); 
-                    console.log('>>>Shoes set to:', response.data);
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
