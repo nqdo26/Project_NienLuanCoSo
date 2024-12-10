@@ -111,6 +111,14 @@ function Shoes() {
     };
 
     const handleAddFavourite = async () => {
+        if (!auth.isAuthenticated) {
+            navigate('/login');
+            notification.info({
+                description: 'Please login to add to favourite list.',
+                placement: 'topRight',
+            });
+            return;
+        }
         setLoadingUpdate(true);
     
         try {
@@ -149,6 +157,14 @@ function Shoes() {
     };
 
     const handleAddToBag = async () => {
+        if (!auth.isAuthenticated) {
+            navigate('/login');
+            notification.info({
+                description: 'Please login to add to bag list.',
+                placement: 'topRight',
+            });
+            return;
+        }
         setLoadingAddBag(true);
 
         if (!selectedColor || !size) {

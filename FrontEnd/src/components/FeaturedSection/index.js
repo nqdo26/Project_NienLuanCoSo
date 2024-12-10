@@ -2,11 +2,18 @@ import React from 'react';
 import { Row, Col, Card, Button } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './FeaturedSection.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const { Meta } = Card;
 
 const FeaturedSection = () => {
+    const navigate = useNavigate();
+
+    const handleOnClick = () => {
+        navigate('/products');
+    };
+
     return (
         <div>
             <h1 className={cx('title')}>Featured</h1>
@@ -20,9 +27,13 @@ const FeaturedSection = () => {
                         <div className={cx('overlay-content')}>
                             <Meta
                                 title={<span className={cx('meta-title')}>Unleash Your Potential</span>}
-                                description={<span className={cx('meta-description')}>Engineered for champions, built for everyone</span>}
+                                description={
+                                    <span className={cx('meta-description')}>
+                                        Engineered for champions, built for everyone
+                                    </span>
+                                }
                             />
-                            <Button className={cx('button')}>
+                            <Button onClick={handleOnClick} className={cx('button')}>
                                 Shop
                             </Button>
                         </div>
@@ -37,9 +48,13 @@ const FeaturedSection = () => {
                         <div className={cx('overlay-content')}>
                             <Meta
                                 title={<span className={cx('meta-title')}>Own the Moment, Own the Run</span>}
-                                description={<span className={cx('meta-description')}>Revolutionizing comfort, redefining performance</span>}
+                                description={
+                                    <span className={cx('meta-description')}>
+                                        Revolutionizing comfort, redefining performance
+                                    </span>
+                                }
                             />
-                            <Button className={cx('button')}>
+                            <Button onClick={handleOnClick} className={cx('button')}>
                                 Shop
                             </Button>
                         </div>
@@ -54,9 +69,13 @@ const FeaturedSection = () => {
                         <div className={cx('overlay-content')}>
                             <Meta
                                 title={<span className={cx('meta-title')}>Where Comfort Meets Style</span>}
-                                description={<span className={cx('meta-description')}>Built to keep you moving, wherever life takes you</span>}
+                                description={
+                                    <span className={cx('meta-description')}>
+                                        Built to keep you moving, wherever life takes you
+                                    </span>
+                                }
                             />
-                            <Button className={cx('button')}>
+                            <Button onClick={handleOnClick} className={cx('button')}>
                                 Shop
                             </Button>
                         </div>

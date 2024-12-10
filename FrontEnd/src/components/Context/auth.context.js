@@ -20,6 +20,8 @@ export const AuthWrapper = (props) => {
         },
     });
 
+    
+
     const [appLoading, setAppLoading] = useState(true);
 
     return (

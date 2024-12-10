@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Typography, Button, Row, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
 const RunningBanner = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const navigate = useNavigate();
 
+    const handleOnClick = () => {
+        navigate('/products');
+    };
     return (
         <div style={{ textAlign: 'center', padding: '50px 0'}}>
             <Row justify="center">
@@ -24,6 +29,7 @@ const RunningBanner = () => {
                 </Col>
                 <Col span={24} style={{ marginTop: '20px' }}>
                     <Button
+                        onClick={handleOnClick}
                         type="primary"
                         size="large"
                         style={{

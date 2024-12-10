@@ -17,7 +17,6 @@ const cx = classNames.bind(styles);
 function Header() {
     const navigate = useNavigate();
     const { auth, setAuth } = useContext(AuthContext);
-    //  console.log('>>Check auth', auth);
     const items = [
         {
             key: '1',
@@ -141,7 +140,7 @@ function Header() {
                             <Search />
 
                             <Tippy clasName={cx('number-btn')} delay={[500, 50]} content="Favorites" placement="bottom">
-                                <Link to={`/favourite/${auth.user.email}`}>
+                                <Link to={auth.isAuthenticated ? `/favourite/${auth.user.email}` : '/login'}>
                                     <Badge offset={[-6, 7]} className={cx('custom-badge')}>
                                         <button className={cx('action-btn')}>
                                             <FarvoriteIcon />
@@ -150,7 +149,7 @@ function Header() {
                                 </Link>
                             </Tippy>
                             <Tippy clasName={cx('number-btn')} delay={[500, 50]} content="Bag" placement="bottom">
-                            <Link to={`/bag/${auth.user.email}`}>
+                                <Link to={auth.isAuthenticated ? `/bag/${auth.user.email}` : '/login'}>
                                     <Badge offset={[-6, 7]} className={cx('custom-badge')}>
                                         <button className={cx('action-btn')}>
                                             <CartIcon />
