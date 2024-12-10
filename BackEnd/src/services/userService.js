@@ -147,7 +147,7 @@ const getUserService = async () => {
 
 // Favourite
 
-const addFavouriteService = async (email, title, tag, price, numberOfColors, shoesId) => {
+const addFavouriteService = async (email, title, tag, price, numberOfColors, shoesId, image) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
@@ -182,6 +182,7 @@ const addFavouriteService = async (email, title, tag, price, numberOfColors, sho
 
         let result = await Favourite.create({
             title: title,
+            image: image,
             tag: tag,
             price: price,
             numberOfColors: numberOfColors,
@@ -277,7 +278,7 @@ const searchShoesByTitleService = async (title) => {
 
 //Bag
 
-const addBagService = async (email, title, tag, size, price, number, color, shoesId) => {
+const addBagService = async (email, title, tag, size, price, number, color, shoesId, image) => {
     try {
         const user = await User.findOne({ email });
         if (!user) {
@@ -315,6 +316,7 @@ const addBagService = async (email, title, tag, size, price, number, color, shoe
 
         let result = await Bag.create({
             title: title,
+            image: image,
             tag: tag,
             size: size,
             price: price,

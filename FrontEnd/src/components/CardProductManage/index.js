@@ -8,7 +8,7 @@ import { AuthContext } from '~/components/Context/auth.context';
 
 const cx = classNames.bind(styles);
 
-function CardProductManage({ id, title, tag, numberOfColors, price, images }) {
+function CardProductManage({ title, tag, numberOfColors, price, images }) {
     const { auth } = useContext(AuthContext);
     const { Title, Text } = Typography;
 

@@ -61,14 +61,6 @@ function Header() {
                           </Link>
                       ),
                   },
-                  {
-                      key: '9',
-                      label: (
-                          <Link className={cx('admin-content')} to="/product">
-                              <span className={cx('content')}>Sale Management</span>
-                          </Link>
-                      ),
-                  },
               ]
             : []),
 

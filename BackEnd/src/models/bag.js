@@ -9,6 +9,7 @@ const bagSchema = new mongoose.Schema({
     color: String,
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     shoesId: { type: mongoose.Schema.Types.ObjectId, ref: 'shoes' },
+    image: String,
 });
 
 const Bag = mongoose.model('bag', bagSchema);

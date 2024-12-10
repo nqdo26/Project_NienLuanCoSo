@@ -81,7 +81,6 @@ const ShoppingCart = () => {
     };
 
     const handleQuantityChange = (id, newQuantity) => {
-        // Cập nhật số lượng của sản phẩm
         const updatedItems = items.map(item => {
             if (item._id === id) {
                 return { ...item, number: newQuantity };
@@ -89,8 +88,6 @@ const ShoppingCart = () => {
             return item;
         });
         setItems(updatedItems);
-    
-        // Tính lại tổng tiền
         const newTotalPrice = updatedItems.reduce((sum, item) => sum + item.price * item.number, 0);
         setTotalPrice(newTotalPrice);
     };
@@ -122,7 +119,7 @@ const ShoppingCart = () => {
                                     <Card key={item.id} className={cx('cart-item')} bordered={false}>
                                         <Row gutter={16}>
                                             <Col span={6}>
-                                                <img src={item.imgSrc} alt={item.title} className={cx('item-image')} />
+                                                <img src={item.image} alt={item.title} className={cx('item-image')} />
                                             </Col>
                                             <Col span={18}>
                                                 <div className={cx('title-shopping-card')}>

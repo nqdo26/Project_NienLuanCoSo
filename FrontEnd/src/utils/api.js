@@ -27,10 +27,11 @@ const getUserApi = () => {
     return axios.get(URL_API);
 };
 
-const addFavouriteApi = (email, title, tag, price, numberOfColors, shoesId) => {
-    const URL_API = '/v1/api/favourite/' + email;
+const addFavouriteApi = (email, image, title, tag, price, numberOfColors, shoesId) => {
+    const URL_API = `/v1/api/favourite/${email}`;
     const data = {
         email,
+        image,
         title,
         tag,
         price,
@@ -50,10 +51,11 @@ const deleteFavouriteApi = (_id) => {
     return axios.delete(URL_API, { data: { _id } });
 };
 
-const addBagApi = (email, title, tag, size, price, color, shoesId) => {
+const addBagApi = (email, image, title, tag, size, price, color, shoesId) => {
     const URL_API = '/v1/api/bag/' + email;
     const data = {
         email,
+        image,
         title,
         tag,
         size,

@@ -23,3 +23,10 @@
     justify-content: space-between;
     
 }
+
+.product-image {
+    height: 420px;
+    width: 100%;
+    object-fit: cover;  /* Đảm bảo hình ảnh lấp đầy phần tử mà không mất tỉ lệ */
+    object-position: center;  /* Căn giữa hình ảnh */
+}

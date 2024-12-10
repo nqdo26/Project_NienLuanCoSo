@@ -114,8 +114,8 @@ function Shoes() {
         setLoadingUpdate(true);
     
         try {
-            const response = await addFavouriteApi(auth.user.email, shoes.title, shoes.tag, shoes.price, shoes.numberOfColors, shoes._id);
-    
+            const response = await addFavouriteApi(auth.user.email, shoes.images[0], shoes.title, shoes.tag, shoes.price, shoes.numberOfColors, shoes._id);
+            console.log('image' + shoes.images[0]);
             if (response.EC === 0) {
                 console.log('>>>Add to favourite:', response);
                 notification.success({
@@ -161,7 +161,7 @@ function Shoes() {
         }
     
         try {
-            const response = await addBagApi(auth.user.email, shoes.title, shoes.tag, size, shoes.price, selectedColor, shoes._id);
+            const response = await addBagApi(auth.user.email, shoes.images[0], shoes.title, shoes.tag, size, shoes.price, selectedColor, shoes._id);
             console.log('>>>Add to bag:', response);
             if (response && response.EC === 0) {
                 notification.success({

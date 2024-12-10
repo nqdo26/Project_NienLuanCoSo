@@ -45,7 +45,7 @@ function App() {
                     <Spin size="large" />
                 </div>
             ) : (
-                <ShoesWrapper> {/* Bọc toàn bộ Routes */}
+                <ShoesWrapper>
                     <Routes>
                         {publicRoutes.map((route, index) => {
                             const Page = route.component;

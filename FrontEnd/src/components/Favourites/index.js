@@ -128,6 +128,7 @@ const Favourites = () => {
                                                         style={{ height: '200px', objectFit: 'contain' }}
                                                     />
                                                 }
+                                                image={item.image}    
                                                 title={item.title}
                                                 text={item.tag}
                                                 numberOfColors={item.numberOfColors}

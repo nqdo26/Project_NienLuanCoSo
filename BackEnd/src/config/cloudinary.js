@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'shoes_images',
-        format: async (req, file) => 'png', // supports promises as well
+        format: async (req, file) => 'png', 
         public_id: (req, file) => file.originalname,
     },
 });
@@ -21,10 +21,8 @@ const upload = multer({ storage: storage });
 
 const uploadImage = async (req, res) => {
     try {
-        // URL hình ảnh đã upload được trả về từ multer-storage-cloudinary
-        const imageUrl = req.file.path; // `path` sẽ chứa URL của hình ảnh trên Cloudinary
+        const imageUrl = req.file.path; 
 
-        // Trả về URL của hình ảnh
         res.json({ url: imageUrl });
     } catch (error) {
         console.error(error);

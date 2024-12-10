@@ -7,6 +7,7 @@ const favouriteSchema = new mongoose.Schema({
     numberOfColors: Number, 
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     shoesId: { type: mongoose.Schema.Types.ObjectId, ref: 'shoes' },
+    image: String,
 });
 
 const Favourite = mongoose.model('favourite', favouriteSchema);

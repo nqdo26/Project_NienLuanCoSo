@@ -33,11 +33,11 @@ const getAccount = async (req, res) => {
 // Favourite
 
 const addFavourite = async (req, res) => {
-    const { title, tag, price, numberOfColors, shoesId } = req.body;
     const { email } = req.params;   
+    const { title, tag, price, numberOfColors, shoesId, image} = req.body;
 
     try {
-        const result = await addFavouriteService(email, title, tag, price, numberOfColors, shoesId);  
+        const result = await addFavouriteService(email, title, tag, price, numberOfColors, shoesId, image);  
         
         if (result.EC === 0) {
             return res.status(200).json(result);  
@@ -82,11 +82,11 @@ const searchShoesByTitle = async (req, res) => {
 };
 
 const addBag = async (req, res) => {
-    const { title, tag, size, price, number, color, shoesId } = req.body;
+    const { title, tag, size, price, number, color, shoesId, image } = req.body;
     const { email } = req.params;   
 
     try {
-        const result = await addBagService(email, title, tag, size, price, number, color, shoesId);  
+        const result = await addBagService(email, title, tag, size, price, number, color, shoesId, image);  
         
         if (result.EC === 0 || result.EC === 3) {
             return res.status(200).json(result);  

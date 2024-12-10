@@ -6,7 +6,7 @@ import { HeartOutlined } from '@ant-design/icons';
 
 const cx = classNames.bind(styles);
 
-function CardProductFavourite({ title, numberOfColors, text, price, onClick}) {
+function CardProductFavourite({ title, numberOfColors, text, price, image, onClick}) {
     const { Title, Text } = Typography;
 
     const formatPrice = (price) => {
@@ -14,13 +14,13 @@ function CardProductFavourite({ title, numberOfColors, text, price, onClick}) {
     };
 
     return (
-        <Card hoverable cover={<img alt="example" src="https://via.placeholder.com/240" />}>
+        <Card hoverable cover={<img alt='product' className={cx('product-image')} src={image}/>}>
             <div className={cx('card-body')}>
                 <Button 
                     className={cx('heart-icon')} 
                     onClick={(e) => {
-                        e.stopPropagation(); // Ngừng sự kiện chuyển trang
-                        onClick(); // Gọi hàm xóa sản phẩm
+                        e.stopPropagation(); 
+                        onClick(); 
                     }}
                 >
                     <HeartOutlined />
@@ -41,7 +41,6 @@ function CardProductFavourite({ title, numberOfColors, text, price, onClick}) {
                     <Title style={{ marginTop: '8px' }} level={5}>
                         {formatPrice(price)}₫
                     </Title>
-                    <Button type="primary">Add To Bag</Button>
                 </div>
             </div>
         </Card>
