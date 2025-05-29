@@ -1,4 +1,4 @@
-SHOES SHOP REACT WEBAPP
+ ## SHOES SHOP REACT WEBAPP
 
 A full-stack application combining a Node.js/Express backend and a React/CRA frontend. The system manages CRUD operations for shoes, user authentication, favorites, and shopping functionality.
 
