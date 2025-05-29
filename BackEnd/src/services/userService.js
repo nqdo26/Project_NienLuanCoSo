@@ -208,6 +208,7 @@ const addFavouriteService = async (email, title, tag, price, numberOfColors, sho
 const getListFavouriteService = async (email) => {
     try {
         const user = await User.findOne({ email });
+        console.log('User check:', user);
         if (!user) {
             return {
                 EC: 1,

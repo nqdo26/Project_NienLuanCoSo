@@ -17,7 +17,6 @@ function Search() {
         const fetchShoes = async () => {
             setAppLoading(true);
             try {
-                // Lấy dữ liệu từ state thay vì từ query params
                 const searchData = location.state?.data;
                 console.log('>>> searchData:', searchData);
                 if (searchData && Array.isArray(searchData)) {

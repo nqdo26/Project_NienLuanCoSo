@@ -13,7 +13,7 @@ const CustomMenu = () => {
           <Row gutter={[16, 16]}>
               <Col span={6}>
                   <div
-                      className={cx('menu-item')} // Sử dụng cx() để tạo className
+                      className={cx('menu-item')} 
                       onMouseEnter={() => setHovered(true)}
                       onMouseLeave={() => setHovered(false)}
                   >

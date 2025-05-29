@@ -35,7 +35,7 @@ const Favourites = () => {
     }, [email, setAppLoading]);
 
     const onClickRemoveFavourite = async (_id) => {
-        setLoading(true); // Bắt đầu loading khi xoá
+        setLoading(true); 
         try {
             const response = await deleteFavouriteApi(_id);
             if (response.EC === 0) {

@@ -16,7 +16,6 @@ import Bag from './pages/Bag';
 import ProductManage from './pages/ProductManage';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
-import ConfirmDelete from './pages/ConfirmDelete';
 import Nike from './pages/Nike';
 import Jordan from './pages/Jordan';
 import Running from './pages/Running';
@@ -90,10 +89,6 @@ const router = createBrowserRouter([
             {
                 path: 'editproduct/:_id',
                 element: <EditProduct />,
-            },
-            {
-                path: 'productmanage/deleteshoes/:_id', 
-                element: <ConfirmDelete />,
             },
             {
                 path: 'search', 

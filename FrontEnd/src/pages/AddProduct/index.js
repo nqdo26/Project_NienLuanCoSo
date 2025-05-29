@@ -85,6 +85,13 @@ const AddProduct = () => {
     };
 
     const handleUploadChange = ({ fileList }) => {
+        if (fileList.length > 7) {
+            notification.warning({
+                message: 'ERROR',
+                description: 'You can only upload up to 7 images.',
+            });
+            fileList = fileList.slice(0, 7); 
+        }
         setFileList(fileList);
     };
 

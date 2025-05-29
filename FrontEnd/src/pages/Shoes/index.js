@@ -72,7 +72,7 @@ function Shoes() {
             cancelText: 'No',
             onOk: handleDeleteShoes,
             onCancel() {
-                notification.info9({
+                notification.info({
                     message: 'Info',
                     description: 'Delete action has been canceled.',
                     placement: 'topRight',

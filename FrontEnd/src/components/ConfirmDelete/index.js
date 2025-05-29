@@ -7,24 +7,21 @@ function DeleteConfirm() {
     const navigate = useNavigate();
 
     const handleDelete = () => {
-        // Gọi API để xóa sản phẩm dựa trên ID
-        // Giả sử bạn có một hàm gọi API tên là deleteProductApi
         deleteProductApi(id)
             .then(() => {
-                // Sau khi xóa thành công, chuyển hướng về trang productmanage
                 navigate('/productmanage');
             })
             .catch((error) => {
-                console.error("Có lỗi xảy ra khi xóa sản phẩm:", error);
+                console.error("Error:", error);
             });
     };
 
     const showConfirm = () => {
         Modal.confirm({
-            title: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
+            title: 'Are you sure you want to delete this product?',
             onOk: handleDelete,
             onCancel() {
-                navigate('/productmanage'); // Nếu không, quay lại trang quản lý sản phẩm
+                navigate('/productmanage'); 
             },
         });
     };
@@ -33,7 +30,7 @@ function DeleteConfirm() {
         showConfirm();
     }, []);
 
-    return null; // Không cần render gì trong trang này
+    return null; 
 }
 
 export default DeleteConfirm;

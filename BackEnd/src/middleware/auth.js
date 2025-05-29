@@ -2,7 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
-    const white_lists = ["/", "/register", "/login", "/admin", "/productmangage"];
+    const white_lists = ["/", "/register", "/login", "/admin"];
     if (white_lists.find(item => '/v1/api' + item === req.originalUrl)) {
         next();
     } else {
